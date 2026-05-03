@@ -1,0 +1,870 @@
+{
+  "name": "Web Injection Attack Response",
+  "version": "1.0",
+  "model": {
+    "dependencyModels": {
+      "dm-001": {
+        "id": "dm-001",
+        "name": "Web Application Availability",
+        "rootId": "pg-root",
+        "paragons": {
+          "pg-root": {
+            "id": "pg-root",
+            "description": "Web Application Available",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-frontend", "pg-backend", "pg-database"],
+            "criticalThreshold": 0.7,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "CISO", "contact": "ciso@example.com", "roleId": null },
+              { "name": "Service Owner", "contact": "serviceowner@example.com", "roleId": null }
+            ]
+          },
+          "pg-frontend": {
+            "id": "pg-frontend",
+            "description": "Frontend Operational",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-webserver", "pg-tls"],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-webserver": {
+            "id": "pg-webserver",
+            "description": "Web Server Running",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.95,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-tls": {
+            "id": "pg-tls",
+            "description": "TLS Certificate Valid",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.98,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-backend": {
+            "id": "pg-backend",
+            "description": "Application Backend Intact",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-code-integrity", "pg-injection-free"],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-code-integrity": {
+            "id": "pg-code-integrity",
+            "description": "Application Code Integrity",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.90,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-injection-free": {
+            "id": "pg-injection-free",
+            "description": "No Injection Vulnerability Exploited",
+            "type": "OR",
+            "leafProbability": 1.0,
+            "childIds": ["pg-waf-active", "pg-input-validation"],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-waf-active": {
+            "id": "pg-waf-active",
+            "description": "WAF Active and Updated",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.85,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-input-validation": {
+            "id": "pg-input-validation",
+            "description": "Input Validation in Place",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.78,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-database": {
+            "id": "pg-database",
+            "description": "Database Accessible and Clean",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-db-running", "pg-db-integrity"],
+            "criticalThreshold": 0.8,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "DBA", "contact": "dba@example.com", "roleId": null },
+              { "name": "CISO", "contact": "ciso@example.com", "roleId": null }
+            ]
+          },
+          "pg-db-running": {
+            "id": "pg-db-running",
+            "description": "Database Service Running",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.97,
+            "childIds": [],
+            "criticalThreshold": 0.9,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [{ "name": "DBA", "contact": "dba@example.com", "roleId": null }]
+          },
+          "pg-db-integrity": {
+            "id": "pg-db-integrity",
+            "description": "Database Records Intact",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.88,
+            "childIds": [],
+            "criticalThreshold": 0.85,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "DBA", "contact": "dba@example.com", "roleId": null },
+              { "name": "Compliance Officer", "contact": "compliance@example.com", "roleId": null }
+            ]
+          }
+        }
+      }
+    },
+    "organisations": {
+      "org-001": {
+        "id": "org-001",
+        "name": "Security Operations Center",
+        "rootProcessIds": ["proc-root"],
+        "roleIds": ["role-analyst", "role-lead", "role-manager"]
+      }
+    },
+    "processes": {
+      "proc-root": {
+        "id": "proc-root",
+        "name": "Web Injection Attack Response",
+        "notes": "Incident response playbook for web injection attacks (SQL injection, XSS, command injection). Follows PICERL lifecycle.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": [],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": [],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": ["proc-detect", "proc-analyse", "proc-contain", "proc-eradicate", "proc-recover"],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": []
+      },
+      "proc-detect": {
+        "id": "proc-detect",
+        "name": "Detection & Triage",
+        "notes": "Detect and triage injection attack indicators from IDS alerts, WAF logs, and anomaly detection.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-analyst"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": ["proc-monitor-alerts", "proc-triage"],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-triage-report-created", "asi-phase-d-a"]
+      },
+      "proc-monitor-alerts": {
+        "id": "proc-monitor-alerts",
+        "name": "Monitor IDS/WAF Alerts",
+        "notes": "Continuously monitor IDS and WAF alerts for injection attack signatures. Correlate with SIEM events.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-waf-active",
+        "associatedRoleIds": ["role-analyst"],
+        "activityImpacts": [
+          {
+            "id": "ai-001",
+            "paragonId": "pg-waf-active",
+            "newValue": 0.95
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-alert-log-collected"]
+      },
+      "proc-triage": {
+        "id": "proc-triage",
+        "name": "Triage & Classify Incident",
+        "notes": "Review collected alerts, classify attack type (SQLi/XSS/CMDi), determine severity and scope.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-lead"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-alert-log-collected"],
+        "resultArtifactInStateIds": ["asi-triage-report-created"]
+      },
+      "proc-analyse": {
+        "id": "proc-analyse",
+        "name": "Analysis & Forensics",
+        "notes": "Deep technical analysis of the injection attack: identify payloads, affected endpoints, and data exposure.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-analyst", "role-lead"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": ["proc-payload-analysis", "proc-impact-assessment"],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-triage-report-created", "asi-phase-d-a"],
+        "resultArtifactInStateIds": ["asi-forensic-report-created", "asi-phase-a-c"]
+      },
+      "proc-payload-analysis": {
+        "id": "proc-payload-analysis",
+        "name": "Analyse Attack Payloads",
+        "notes": "Extract and analyse malicious payloads from logs. Identify injection vectors, obfuscation techniques, and attack infrastructure.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-injection-free",
+        "associatedRoleIds": ["role-analyst"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-triage-report-created"],
+        "resultArtifactInStateIds": ["asi-payload-report-created"]
+      },
+      "proc-impact-assessment": {
+        "id": "proc-impact-assessment",
+        "name": "Assess Data Exposure",
+        "notes": "Determine what data was accessed or exfiltrated. Review database query logs and application audit trails.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-db-integrity",
+        "associatedRoleIds": ["role-lead"],
+        "activityImpacts": [
+          {
+            "id": "ai-002",
+            "paragonId": "pg-db-integrity",
+            "newValue": 0.80
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-payload-report-created"],
+        "resultArtifactInStateIds": ["asi-forensic-report-created"]
+      },
+      "proc-contain": {
+        "id": "proc-contain",
+        "name": "Containment",
+        "notes": "Contain the attack by blocking malicious IPs, patching vulnerable endpoints, and isolating affected systems.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-analyst", "role-lead"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": ["proc-block-attacker", "proc-patch-vuln"],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-forensic-report-created", "asi-phase-a-c"],
+        "resultArtifactInStateIds": ["asi-containment-report-created", "asi-phase-c-e"]
+      },
+      "proc-block-attacker": {
+        "id": "proc-block-attacker",
+        "name": "Block Attacker IPs",
+        "notes": "Block identified attacker IP addresses at firewall and WAF level. Update threat intelligence feeds.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-waf-active",
+        "associatedRoleIds": ["role-analyst"],
+        "activityImpacts": [
+          {
+            "id": "ai-003",
+            "paragonId": "pg-waf-active",
+            "newValue": 0.97
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-forensic-report-created"],
+        "resultArtifactInStateIds": ["asi-block-list-created"]
+      },
+      "proc-patch-vuln": {
+        "id": "proc-patch-vuln",
+        "name": "Patch Vulnerable Endpoints",
+        "notes": "Apply emergency patches or configuration changes to close identified injection vulnerabilities.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION", "PREVENTION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-input-validation",
+        "associatedRoleIds": ["role-lead"],
+        "activityImpacts": [
+          {
+            "id": "ai-004",
+            "paragonId": "pg-input-validation",
+            "newValue": 0.97
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-block-list-created"],
+        "resultArtifactInStateIds": ["asi-containment-report-created"]
+      },
+      "proc-eradicate": {
+        "id": "proc-eradicate",
+        "name": "Eradication",
+        "notes": "Remove all traces of the attack: clean injected code, restore tampered data, revoke compromised credentials.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-lead"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": ["proc-clean-code", "proc-restore-data"],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-containment-report-created", "asi-phase-c-e"],
+        "resultArtifactInStateIds": ["asi-eradication-report-created", "asi-phase-e-r"]
+      },
+      "proc-clean-code": {
+        "id": "proc-clean-code",
+        "name": "Remove Injected Code",
+        "notes": "Identify and remove any web shells, backdoors, or persistent injection payloads from application code.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-code-integrity",
+        "associatedRoleIds": ["role-lead"],
+        "activityImpacts": [
+          {
+            "id": "ai-005",
+            "paragonId": "pg-code-integrity",
+            "newValue": 0.98
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-containment-report-created"],
+        "resultArtifactInStateIds": ["asi-clean-code-verified"]
+      },
+      "proc-restore-data": {
+        "id": "proc-restore-data",
+        "name": "Restore Tampered Data",
+        "notes": "Identify and restore any database records modified or deleted by the attacker. Verify backup integrity.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": "pg-db-integrity",
+        "associatedRoleIds": ["role-lead"],
+        "activityImpacts": [
+          {
+            "id": "ai-006",
+            "paragonId": "pg-db-integrity",
+            "newValue": 0.98
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-clean-code-verified"],
+        "resultArtifactInStateIds": ["asi-eradication-report-created"]
+      },
+      "proc-recover": {
+        "id": "proc-recover",
+        "name": "Recovery & Lessons Learned",
+        "notes": "Restore full service, verify system integrity, and conduct post-incident review.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": [],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-manager"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": ["proc-verify-restore", "proc-postmortem"],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-eradication-report-created", "asi-phase-e-r"],
+        "resultArtifactInStateIds": ["asi-incident-closed"]
+      },
+      "proc-verify-restore": {
+        "id": "proc-verify-restore",
+        "name": "Verify & Restore Service",
+        "notes": "Perform smoke tests and security scans to confirm system is clean before restoring full service.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-analyst"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-eradication-report-created"],
+        "resultArtifactInStateIds": ["asi-service-restored"]
+      },
+      "proc-postmortem": {
+        "id": "proc-postmortem",
+        "name": "Post-Incident Review",
+        "notes": "Conduct blameless postmortem. Document root cause, timeline, lessons learned, and prevention recommendations.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null,
+        "endDate": null,
+        "paragonId": null,
+        "associatedRoleIds": ["role-manager"],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-service-restored"],
+        "resultArtifactInStateIds": ["asi-incident-closed"]
+      }
+    },
+    "artifacts": {
+      "art-alert-log": {
+        "id": "art-alert-log",
+        "name": "Alert Log",
+        "stateIds": ["as-alert-log-collected"]
+      },
+      "art-triage-report": {
+        "id": "art-triage-report",
+        "name": "Triage Report",
+        "stateIds": ["as-triage-report-created"]
+      },
+      "art-payload-report": {
+        "id": "art-payload-report",
+        "name": "Payload Analysis Report",
+        "stateIds": ["as-payload-report-created"]
+      },
+      "art-forensic-report": {
+        "id": "art-forensic-report",
+        "name": "Forensic Report",
+        "stateIds": ["as-forensic-report-created"]
+      },
+      "art-block-list": {
+        "id": "art-block-list",
+        "name": "IP Block List",
+        "stateIds": ["as-block-list-created"]
+      },
+      "art-containment-report": {
+        "id": "art-containment-report",
+        "name": "Containment Report",
+        "stateIds": ["as-containment-report-created"]
+      },
+      "art-clean-code": {
+        "id": "art-clean-code",
+        "name": "Verified Clean Codebase",
+        "stateIds": ["as-clean-code-verified"]
+      },
+      "art-eradication-report": {
+        "id": "art-eradication-report",
+        "name": "Eradication Report",
+        "stateIds": ["as-eradication-report-created"]
+      },
+      "art-incident-report": {
+        "id": "art-incident-report",
+        "name": "Incident Report",
+        "stateIds": ["as-service-restored", "as-incident-closed"]
+      }
+    },
+    "artifactStates": {
+      "as-alert-log-collected": {
+        "id": "as-alert-log-collected",
+        "name": "collected",
+        "artifactName": "Alert Log",
+        "achievedStatus": false,
+        "instanceIds": ["asi-alert-log-collected"]
+      },
+      "as-triage-report-created": {
+        "id": "as-triage-report-created",
+        "name": "created",
+        "artifactName": "Triage Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-triage-report-created"]
+      },
+      "as-payload-report-created": {
+        "id": "as-payload-report-created",
+        "name": "created",
+        "artifactName": "Payload Analysis Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-payload-report-created"]
+      },
+      "as-forensic-report-created": {
+        "id": "as-forensic-report-created",
+        "name": "created",
+        "artifactName": "Forensic Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-forensic-report-created"]
+      },
+      "as-block-list-created": {
+        "id": "as-block-list-created",
+        "name": "created",
+        "artifactName": "IP Block List",
+        "achievedStatus": false,
+        "instanceIds": ["asi-block-list-created"]
+      },
+      "as-containment-report-created": {
+        "id": "as-containment-report-created",
+        "name": "created",
+        "artifactName": "Containment Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-containment-report-created"]
+      },
+      "as-clean-code-verified": {
+        "id": "as-clean-code-verified",
+        "name": "verified",
+        "artifactName": "Verified Clean Codebase",
+        "achievedStatus": false,
+        "instanceIds": ["asi-clean-code-verified"]
+      },
+      "as-eradication-report-created": {
+        "id": "as-eradication-report-created",
+        "name": "created",
+        "artifactName": "Eradication Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-eradication-report-created"]
+      },
+      "as-service-restored": {
+        "id": "as-service-restored",
+        "name": "service-restored",
+        "artifactName": "Incident Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-service-restored"]
+      },
+      "as-incident-closed": {
+        "id": "as-incident-closed",
+        "name": "closed",
+        "artifactName": "Incident Report",
+        "achievedStatus": false,
+        "instanceIds": ["asi-incident-closed"]
+      }
+    },
+    "artifactStateInstances": {
+      "asi-alert-log-collected": {
+        "id": "asi-alert-log-collected",
+        "originatingActivity": "proc-monitor-alerts",
+        "usedByActivity": "proc-triage"
+      },
+      "asi-triage-report-created": {
+        "id": "asi-triage-report-created",
+        "originatingActivity": "proc-triage",
+        "usedByActivity": "proc-payload-analysis"
+      },
+      "asi-payload-report-created": {
+        "id": "asi-payload-report-created",
+        "originatingActivity": "proc-payload-analysis",
+        "usedByActivity": "proc-impact-assessment"
+      },
+      "asi-forensic-report-created": {
+        "id": "asi-forensic-report-created",
+        "originatingActivity": "proc-impact-assessment",
+        "usedByActivity": "proc-block-attacker"
+      },
+      "asi-block-list-created": {
+        "id": "asi-block-list-created",
+        "originatingActivity": "proc-block-attacker",
+        "usedByActivity": "proc-patch-vuln"
+      },
+      "asi-containment-report-created": {
+        "id": "asi-containment-report-created",
+        "originatingActivity": "proc-patch-vuln",
+        "usedByActivity": "proc-clean-code"
+      },
+      "asi-clean-code-verified": {
+        "id": "asi-clean-code-verified",
+        "originatingActivity": "proc-clean-code",
+        "usedByActivity": "proc-restore-data"
+      },
+      "asi-eradication-report-created": {
+        "id": "asi-eradication-report-created",
+        "originatingActivity": "proc-restore-data",
+        "usedByActivity": "proc-verify-restore"
+      },
+      "asi-service-restored": {
+        "id": "asi-service-restored",
+        "originatingActivity": "proc-verify-restore",
+        "usedByActivity": "proc-postmortem"
+      },
+      "asi-incident-closed": {
+        "id": "asi-incident-closed",
+        "originatingActivity": "proc-postmortem",
+        "usedByActivity": null
+      },
+      "asi-phase-d-a": {
+        "id": "asi-phase-d-a",
+        "originatingActivity": "proc-detect",
+        "usedByActivity": "proc-analyse"
+      },
+      "asi-phase-a-c": {
+        "id": "asi-phase-a-c",
+        "originatingActivity": "proc-analyse",
+        "usedByActivity": "proc-contain"
+      },
+      "asi-phase-c-e": {
+        "id": "asi-phase-c-e",
+        "originatingActivity": "proc-contain",
+        "usedByActivity": "proc-eradicate"
+      },
+      "asi-phase-e-r": {
+        "id": "asi-phase-e-r",
+        "originatingActivity": "proc-eradicate",
+        "usedByActivity": "proc-recover"
+      }
+    },
+    "actuators": {
+      "act-soc-analyst": {
+        "id": "act-soc-analyst",
+        "name": "SOC Analyst",
+        "actuatorType": "HUMAN"
+      },
+      "act-soc-lead": {
+        "id": "act-soc-lead",
+        "name": "SOC Team Lead",
+        "actuatorType": "HUMAN"
+      },
+      "act-manager": {
+        "id": "act-manager",
+        "name": "Security Manager",
+        "actuatorType": "HUMAN"
+      },
+      "act-siem": {
+        "id": "act-siem",
+        "name": "SIEM Platform",
+        "actuatorType": "MACHINE"
+      },
+      "act-waf": {
+        "id": "act-waf",
+        "name": "Web Application Firewall",
+        "actuatorType": "MACHINE"
+      }
+    },
+    "externalReferences": {},
+    "roles": {
+      "role-analyst": {
+        "id": "role-analyst",
+        "name": "Security Analyst"
+      },
+      "role-lead": {
+        "id": "role-lead",
+        "name": "Incident Response Lead"
+      },
+      "role-manager": {
+        "id": "role-manager",
+        "name": "Security Manager"
+      }
+    },
+    "symbiosis": {
+      "businessObjectives": {
+        "bo-001": {
+          "id": "bo-001",
+          "scope": "Web Application Availability",
+          "purpose": "Ensure the web application remains accessible under attack",
+          "viewpoint": "Operational",
+          "context": "Incident Response",
+          "relatedObjectiveIds": [],
+          "paragonId": "pg-root"
+        }
+      },
+      "securityMeasurementGoals": {
+        "smg-001": {
+          "id": "smg-001",
+          "scope": "System Resilience",
+          "purpose": "Measure overall application availability under attack conditions",
+          "viewpoint": "Security",
+          "context": "Post-Incident Analysis",
+          "focus": "Availability",
+          "criteria": "P(root) > 0.8",
+          "businessObjectiveIds": ["bo-001"],
+          "paragonId": "pg-root"
+        }
+      },
+      "securityMetrics": {
+        "sm-001": {
+          "id": "sm-001",
+          "description": "System Goal Probability — computed probability of the root paragon",
+          "goal": "MAKE_SYSTEM_SAFE",
+          "baseMeasurementIds": ["bm-001"],
+          "method": "AND-gate probability propagation from leaf nodes",
+          "measurementFunction": "P(AND) = product of children probabilities",
+          "interpretation": "High value (>0.8) means application likely to remain available",
+          "reporting": "Dashboard gauge",
+          "smgIds": ["smg-001"]
+        },
+        "sm-002": {
+          "id": "sm-002",
+          "description": "WAF Change in Operations (CiO) — importance of WAF to system goal",
+          "goal": "MAKE_SYSTEM_SAFE",
+          "baseMeasurementIds": ["bm-002"],
+          "method": "CiO(WAF) = P_root(WAF=1) - P_root(WAF=0)",
+          "measurementFunction": "Birnbaum importance measure",
+          "interpretation": "High CiO means WAF is critical to maintaining system availability",
+          "reporting": "Metrics table",
+          "smgIds": ["smg-001"]
+        }
+      },
+      "baseMeasurements": {
+        "bm-001": {
+          "id": "bm-001",
+          "description": "WAF Alert Block Rate — number of injection attacks blocked per hour"
+        },
+        "bm-002": {
+          "id": "bm-002",
+          "description": "WAF Rule Currency — days since last WAF signature update"
+        }
+      },
+      "dependencyModelParagonIds": ["pg-root", "pg-waf-active", "pg-injection-free"]
+    }
+  },
+  "representation": {
+    "dmViews": {
+      "dm-001": {
+        "zoom": 1.0,
+        "panX": 40,
+        "panY": 30,
+        "nodePositions": {
+          "pg-root":             { "x": 380, "y": 40  },
+          "pg-frontend":         { "x": 80,  "y": 160 },
+          "pg-webserver":        { "x": 20,  "y": 280 },
+          "pg-tls":              { "x": 200, "y": 280 },
+          "pg-backend":          { "x": 380, "y": 160 },
+          "pg-code-integrity":   { "x": 300, "y": 280 },
+          "pg-injection-free":   { "x": 480, "y": 280 },
+          "pg-waf-active":       { "x": 400, "y": 400 },
+          "pg-input-validation": { "x": 580, "y": 400 },
+          "pg-database":         { "x": 680, "y": 160 },
+          "pg-db-running":       { "x": 600, "y": 280 },
+          "pg-db-integrity":     { "x": 780, "y": 280 }
+        }
+      }
+    },
+    "pbViews": {
+      "proc-root": {
+        "zoom": 1.0,
+        "panX": 20,
+        "panY": 20,
+        "nodePositions": {
+          "proc-detect":    { "x": 40,  "y": 120 },
+          "proc-analyse":   { "x": 240, "y": 120 },
+          "proc-contain":   { "x": 440, "y": 120 },
+          "proc-eradicate": { "x": 640, "y": 120 },
+          "proc-recover":   { "x": 840, "y": 120 }
+        }
+      },
+      "proc-detect": {
+        "zoom": 1.0,
+        "panX": 40,
+        "panY": 40,
+        "nodePositions": {
+          "proc-monitor-alerts": { "x": 60,  "y": 120 },
+          "proc-triage":         { "x": 320, "y": 120 }
+        }
+      },
+      "proc-analyse": {
+        "zoom": 1.0,
+        "panX": 40,
+        "panY": 40,
+        "nodePositions": {
+          "proc-payload-analysis":  { "x": 60,  "y": 120 },
+          "proc-impact-assessment": { "x": 360, "y": 120 }
+        }
+      },
+      "proc-contain": {
+        "zoom": 1.0,
+        "panX": 40,
+        "panY": 40,
+        "nodePositions": {
+          "proc-block-attacker": { "x": 60,  "y": 120 },
+          "proc-patch-vuln":     { "x": 360, "y": 120 }
+        }
+      },
+      "proc-eradicate": {
+        "zoom": 1.0,
+        "panX": 40,
+        "panY": 40,
+        "nodePositions": {
+          "proc-clean-code":   { "x": 60,  "y": 120 },
+          "proc-restore-data": { "x": 360, "y": 120 }
+        }
+      },
+      "proc-recover": {
+        "zoom": 1.0,
+        "panX": 40,
+        "panY": 40,
+        "nodePositions": {
+          "proc-verify-restore": { "x": 60,  "y": 120 },
+          "proc-postmortem":     { "x": 360, "y": 120 }
+        }
+      }
+    }
+  }
+}
