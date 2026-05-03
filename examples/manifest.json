@@ -1,0 +1,42 @@
+[
+  {
+    "filename": "example.json",
+    "name": "Web Injection Attack Response",
+    "description": "The primary FRIPP publication scenario (Shaked et al. 2023). Includes dependency model, playbook, ActivityImpact connections, and CiO analysis."
+  },
+  {
+    "filename": "example-hazmat.json",
+    "name": "Hazardous Materials Spill",
+    "description": "Industrial incident response scenario with multi-stakeholder playbook and operational dependency model."
+  },
+  {
+    "filename": "example-flood.json",
+    "name": "Flood Response",
+    "description": "Multi-stakeholder emergency response playbook with dependency model."
+  },
+  {
+    "filename": "example-pr-crisis.json",
+    "name": "PR Crisis Response",
+    "description": "Communications-focused incident response scenario with media and stakeholder management."
+  },
+  {
+    "filename": "example-loto.json",
+    "name": "Workplace Medical Emergency — LOTO Response",
+    "description": "Operational safety playbook covering Lock-Out/Tag-Out procedure, first aid, and regulatory reporting."
+  },
+  {
+    "filename": "GlobalShippingWithBaselines.json",
+    "name": "Global Shipping Disruption",
+    "description": "Multi-DM supply chain scenario with pre-captured baseline and recovery snapshots."
+  },
+  {
+    "filename": "BillingServiceWithBaselines.json",
+    "name": "Billing Service Outage",
+    "description": "Financial services incident scenario with pre-captured baseline and recovery snapshots."
+  },
+  {
+    "filename": "temp2example.json",
+    "name": "Web Injection Attack Response (Variant)",
+    "description": "Alternate version of the web injection scenario for comparative analysis."
+  }
+]

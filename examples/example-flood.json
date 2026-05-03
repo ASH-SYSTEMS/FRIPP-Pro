@@ -1,0 +1,401 @@
+{
+  "name": "Critical Infrastructure Failure — Flood Response",
+  "version": "1.0",
+  "model": {
+    "dependencyModels": {
+      "dm-fl": {
+        "id": "dm-fl",
+        "name": "Business Continuity Model",
+        "rootId": "pg-fl-continuity",
+        "paragons": {
+          "pg-fl-continuity": {
+            "id": "pg-fl-continuity",
+            "description": "Business Continuity Maintained",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-fl-site-stable", "pg-fl-data-available", "pg-fl-habitable"],
+            "criticalThreshold": 0.7,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "CIO", "contact": "cio@corp.com", "roleId": null },
+              { "name": "Facilities Director", "contact": "facilities@corp.com", "roleId": null }
+            ]
+          },
+          "pg-fl-site-stable": {
+            "id": "pg-fl-site-stable",
+            "description": "Physical Site Stable",
+            "type": "OR",
+            "leafProbability": 1.0,
+            "childIds": ["pg-fl-water-stopped", "pg-fl-secondary-active"],
+            "criticalThreshold": 0.8,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [{ "name": "Facilities Manager", "contact": "facilities-mgr@corp.com", "roleId": "role-fl-facilities" }]
+          },
+          "pg-fl-water-stopped": {
+            "id": "pg-fl-water-stopped",
+            "description": "Water Ingress Stopped",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-fl-secondary-active": {
+            "id": "pg-fl-secondary-active",
+            "description": "Staff Relocated to Secondary Site",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-fl-data-available": {
+            "id": "pg-fl-data-available",
+            "description": "Data Systems Available",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-fl-hw-safe", "pg-fl-failover"],
+            "criticalThreshold": 0.8,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [{ "name": "IT Manager", "contact": "it-mgr@corp.com", "roleId": "role-fl-it" }]
+          },
+          "pg-fl-hw-safe": {
+            "id": "pg-fl-hw-safe",
+            "description": "Critical Hardware Undamaged",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.15,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-fl-failover": {
+            "id": "pg-fl-failover",
+            "description": "Network Failover Active",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-fl-habitable": {
+            "id": "pg-fl-habitable",
+            "description": "Facility Habitable",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-fl-mold-mitigated", "pg-fl-structural-ok"],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-fl-mold-mitigated": {
+            "id": "pg-fl-mold-mitigated",
+            "description": "Black Mold Risk Mitigated",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-fl-structural-ok": {
+            "id": "pg-fl-structural-ok",
+            "description": "Structural Assessment Completed",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.3,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          }
+        }
+      }
+    },
+    "processes": {
+      "proc-fl-root": {
+        "id": "proc-fl-root",
+        "name": "Site Loss — Flood Response",
+        "notes": "High-level strategy for when a physical location is rendered untenable by flooding. Triggered when a moisture sensor in the data centre sends an emergency alert or a mechanical alarm reports a drop in water pressure.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": [],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-fl-p1", "proc-fl-p2", "proc-fl-p3", "proc-fl-p4"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [], "resultArtifactInStateIds": []
+      },
+      "proc-fl-p1": {
+        "id": "proc-fl-p1",
+        "name": "Damage Assessment",
+        "notes": "Determine whether the water ingress is active (pipe still flowing) or stopped (pipe sealed). Locate the main shut-off valve using the site plumbing schematic.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-fl-locate-valve", "proc-fl-shut-off"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-fl-p1-p2"]
+      },
+      "proc-fl-locate-valve": {
+        "id": "proc-fl-locate-valve",
+        "name": "Locate Main Shut-off Valve",
+        "notes": "Retrieve plumbing and electrical schematic from the BIA documentation store. Identify the main water shut-off valve for the affected floor.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-fl-valve-located"]
+      },
+      "proc-fl-shut-off": {
+        "id": "proc-fl-shut-off",
+        "name": "Shut Off Water Supply",
+        "notes": "Close the main shut-off valve for the affected floor. Verify that water flow has stopped. Deploy temporary containment sandbags around data centre entry points.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-fl-water-stopped",
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [{ "id": "ai-fl-01", "paragonId": "pg-fl-water-stopped", "newValue": 0.95 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-valve-located"],
+        "resultArtifactInStateIds": ["asi-fl-p1-p2"]
+      },
+      "proc-fl-p2": {
+        "id": "proc-fl-p2",
+        "name": "Equipment Triage",
+        "notes": "Categorise all hardware as: Dry/Safe, Damp/Salvageable, or Submerged/Total Loss. Prioritise removal of salvageable assets. Record losses for insurance.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-it", "role-fl-facilities"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-fl-assess-hw", "proc-fl-recover-hw"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-p1-p2"],
+        "resultArtifactInStateIds": ["asi-fl-p2-p3"]
+      },
+      "proc-fl-assess-hw": {
+        "id": "proc-fl-assess-hw",
+        "name": "Assess Hardware Damage",
+        "notes": "Physically inspect all servers, switches, and storage units. Apply the three-category classification: Dry/Safe, Damp/Salvageable, Submerged/Total Loss. Photograph for insurance.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-fl-hw-safe",
+        "associatedRoleIds": ["role-fl-it"],
+        "activityImpacts": [{ "id": "ai-fl-02", "paragonId": "pg-fl-hw-safe", "newValue": 0.60 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-fl-hw-assessed"]
+      },
+      "proc-fl-recover-hw": {
+        "id": "proc-fl-recover-hw",
+        "name": "Remove and Dry Salvageable Equipment",
+        "notes": "Extract Damp/Salvageable hardware and move to a dry area. Begin controlled drying process. Tag all items with damage assessment tickets.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-it", "role-fl-facilities"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-hw-assessed"],
+        "resultArtifactInStateIds": ["asi-fl-p2-p3"]
+      },
+      "proc-fl-p3": {
+        "id": "proc-fl-p3",
+        "name": "Failover",
+        "notes": "Trigger the Secondary Site protocol. Reroute customer calls and network traffic to the branch office or cloud environment. Verify RTO and RPO targets from BIA are being met.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-it"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-fl-activate-secondary", "proc-fl-reroute"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-p2-p3"],
+        "resultArtifactInStateIds": ["asi-fl-p3-p4"]
+      },
+      "proc-fl-activate-secondary": {
+        "id": "proc-fl-activate-secondary",
+        "name": "Activate Secondary Site",
+        "notes": "Contact secondary site coordinator. Confirm standby systems are powered and configured. Relocate essential staff to the branch office or remote work arrangements.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-fl-secondary-active",
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [{ "id": "ai-fl-03", "paragonId": "pg-fl-secondary-active", "newValue": 0.95 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-fl-secondary-done"]
+      },
+      "proc-fl-reroute": {
+        "id": "proc-fl-reroute",
+        "name": "Reroute Network and Customer Traffic",
+        "notes": "Update DNS and load-balancer rules to redirect all traffic to the secondary site or cloud. Verify failover is operational. Notify customers of any service degradation.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-fl-failover",
+        "associatedRoleIds": ["role-fl-it"],
+        "activityImpacts": [{ "id": "ai-fl-04", "paragonId": "pg-fl-failover", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-secondary-done"],
+        "resultArtifactInStateIds": ["asi-fl-p3-p4"]
+      },
+      "proc-fl-p4": {
+        "id": "proc-fl-p4",
+        "name": "Remediation",
+        "notes": "Engage environmental drying contractors to prevent black mould growth. Obtain a structural engineer sign-off before re-occupying the building. File insurance claim.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-fl-dry-contractors", "proc-fl-structural"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-p3-p4"],
+        "resultArtifactInStateIds": ["asi-fl-site-restored"]
+      },
+      "proc-fl-dry-contractors": {
+        "id": "proc-fl-dry-contractors",
+        "name": "Deploy Environmental Drying Contractors",
+        "notes": "Engage a certified environmental remediation contractor to deploy industrial drying equipment. Target humidity levels to prevent black mould growth within 48 hours.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-fl-mold-mitigated",
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [{ "id": "ai-fl-05", "paragonId": "pg-fl-mold-mitigated", "newValue": 0.92 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-fl-dry-done"]
+      },
+      "proc-fl-structural": {
+        "id": "proc-fl-structural",
+        "name": "Obtain Structural Engineer Sign-off",
+        "notes": "Commission a structural engineer to inspect water-affected areas. Obtain written clearance before allowing staff to re-occupy the building. File insurance claim documentation.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["PREVENTION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-fl-structural-ok",
+        "associatedRoleIds": ["role-fl-facilities"],
+        "activityImpacts": [{ "id": "ai-fl-06", "paragonId": "pg-fl-structural-ok", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-fl-dry-done"],
+        "resultArtifactInStateIds": ["asi-fl-site-restored"]
+      }
+    },
+    "artifacts": {
+      "art-fl-bia":           { "id": "art-fl-bia",           "name": "Business Impact Analysis", "stateIds": ["as-fl-bia-active"] },
+      "art-fl-damage-report": { "id": "art-fl-damage-report", "name": "Damage Assessment Report", "stateIds": ["as-fl-damage-filed"] }
+    },
+    "artifactStates": {
+      "as-fl-bia-active":    { "id": "as-fl-bia-active",    "artifactId": "art-fl-bia",           "achievedStatus": "COMPLETED", "description": "BIA consulted and failover triggered",        "instanceIds": ["asi-fl-secondary-done"] },
+      "as-fl-damage-filed":  { "id": "as-fl-damage-filed",  "artifactId": "art-fl-damage-report", "achievedStatus": "COMPLETED", "description": "Hardware damage report filed for insurance", "instanceIds": ["asi-fl-hw-assessed"] }
+    },
+    "artifactStateInstances": {
+      "asi-fl-valve-located":   { "id": "asi-fl-valve-located",   "originatingActivity": "proc-fl-locate-valve",       "usedByActivity": "proc-fl-shut-off" },
+      "asi-fl-hw-assessed":     { "id": "asi-fl-hw-assessed",     "originatingActivity": "proc-fl-assess-hw",          "usedByActivity": "proc-fl-recover-hw" },
+      "asi-fl-secondary-done":  { "id": "asi-fl-secondary-done",  "originatingActivity": "proc-fl-activate-secondary", "usedByActivity": "proc-fl-reroute" },
+      "asi-fl-dry-done":        { "id": "asi-fl-dry-done",        "originatingActivity": "proc-fl-dry-contractors",    "usedByActivity": "proc-fl-structural" },
+      "asi-fl-site-restored":   { "id": "asi-fl-site-restored",   "originatingActivity": "proc-fl-structural",         "usedByActivity": null },
+      "asi-fl-p1-p2":           { "id": "asi-fl-p1-p2",           "originatingActivity": "proc-fl-p1",                 "usedByActivity": "proc-fl-p2" },
+      "asi-fl-p2-p3":           { "id": "asi-fl-p2-p3",           "originatingActivity": "proc-fl-p2",                 "usedByActivity": "proc-fl-p3" },
+      "asi-fl-p3-p4":           { "id": "asi-fl-p3-p4",           "originatingActivity": "proc-fl-p3",                 "usedByActivity": "proc-fl-p4" }
+    },
+    "actuators": {
+      "act-fl-facilities": { "id": "act-fl-facilities", "name": "Facilities Manager", "actuatorType": "HUMAN" },
+      "act-fl-it":         { "id": "act-fl-it",         "name": "IT Systems Manager", "actuatorType": "HUMAN" },
+      "act-fl-cloud":      { "id": "act-fl-cloud",      "name": "Cloud Failover System", "actuatorType": "MACHINE" }
+    },
+    "externalReferences": {},
+    "organisations": {
+      "org-fl": { "id": "org-fl", "name": "Corporate Headquarters", "rootProcessIds": ["proc-fl-root"], "roleIds": ["role-fl-facilities", "role-fl-it"] }
+    },
+    "roles": {
+      "role-fl-facilities": { "id": "role-fl-facilities", "name": "Facilities Manager", "description": "Responsible for physical site operations, plumbing, and building contractors", "actuatorIds": ["act-fl-facilities"] },
+      "role-fl-it":         { "id": "role-fl-it",         "name": "IT Manager",         "description": "Responsible for hardware triage and network failover activation", "actuatorIds": ["act-fl-it", "act-fl-cloud"] }
+    },
+    "resources": {}
+  },
+  "representation": {
+    "dmViews": {
+      "dm-fl": {
+        "nodePositions": {
+          "pg-fl-continuity":      { "x": 355, "y": 40  },
+          "pg-fl-site-stable":     { "x": 40,  "y": 130 },
+          "pg-fl-water-stopped":   { "x": 0,   "y": 220 },
+          "pg-fl-secondary-active":{ "x": 190, "y": 220 },
+          "pg-fl-data-available":  { "x": 320, "y": 130 },
+          "pg-fl-hw-safe":         { "x": 280, "y": 220 },
+          "pg-fl-failover":        { "x": 470, "y": 220 },
+          "pg-fl-habitable":       { "x": 600, "y": 130 },
+          "pg-fl-mold-mitigated":  { "x": 560, "y": 220 },
+          "pg-fl-structural-ok":   { "x": 750, "y": 220 }
+        },
+        "zoom": 1, "panX": 40, "panY": 20
+      }
+    },
+    "pbViews": {
+      "proc-fl-root": {
+        "nodePositions": {
+          "proc-fl-p1": { "x": 40,  "y": 120 },
+          "proc-fl-p2": { "x": 250, "y": 120 },
+          "proc-fl-p3": { "x": 460, "y": 120 },
+          "proc-fl-p4": { "x": 670, "y": 120 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-fl-p1": {
+        "nodePositions": {
+          "proc-fl-locate-valve": { "x": 60,  "y": 60 },
+          "proc-fl-shut-off":     { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-fl-p2": {
+        "nodePositions": {
+          "proc-fl-assess-hw":  { "x": 60,  "y": 60 },
+          "proc-fl-recover-hw": { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-fl-p3": {
+        "nodePositions": {
+          "proc-fl-activate-secondary": { "x": 60,  "y": 60 },
+          "proc-fl-reroute":            { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-fl-p4": {
+        "nodePositions": {
+          "proc-fl-dry-contractors": { "x": 60,  "y": 60 },
+          "proc-fl-structural":      { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      }
+    }
+  }
+}

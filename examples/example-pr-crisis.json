@@ -1,0 +1,405 @@
+{
+  "name": "Public Relations Brand Crisis Response",
+  "version": "1.0",
+  "model": {
+    "dependencyModels": {
+      "dm-pr": {
+        "id": "dm-pr",
+        "name": "Brand Integrity Model",
+        "rootId": "pg-pr-brand",
+        "paragons": {
+          "pg-pr-brand": {
+            "id": "pg-pr-brand",
+            "description": "Brand Integrity Protected",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-pr-viral", "pg-pr-stakeholders", "pg-pr-internal"],
+            "criticalThreshold": 0.6,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "CEO", "contact": "ceo@corp.com", "roleId": null },
+              { "name": "Legal Counsel", "contact": "legal@corp.com", "roleId": null },
+              { "name": "Board Chair", "contact": "board@corp.com", "roleId": null }
+            ]
+          },
+          "pg-pr-viral": {
+            "id": "pg-pr-viral",
+            "description": "Viral Spread Controlled",
+            "type": "OR",
+            "leafProbability": 1.0,
+            "childIds": ["pg-pr-statement", "pg-pr-social-monitored"],
+            "criticalThreshold": 0.7,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [{ "name": "Head of Comms", "contact": "comms@corp.com", "roleId": "role-pr-comms" }]
+          },
+          "pg-pr-statement": {
+            "id": "pg-pr-statement",
+            "description": "Verified Statement Published",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-pr-social-monitored": {
+            "id": "pg-pr-social-monitored",
+            "description": "Social Media Channels Monitored",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-pr-stakeholders": {
+            "id": "pg-pr-stakeholders",
+            "description": "Stakeholder Confidence Maintained",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-pr-board-notified", "pg-pr-legal-briefed"],
+            "criticalThreshold": 0.75,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [{ "name": "Investor Relations", "contact": "ir@corp.com", "roleId": null }]
+          },
+          "pg-pr-board-notified": {
+            "id": "pg-pr-board-notified",
+            "description": "Board of Directors Notified",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-pr-legal-briefed": {
+            "id": "pg-pr-legal-briefed",
+            "description": "Legal Counsel Briefed",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-pr-internal": {
+            "id": "pg-pr-internal",
+            "description": "Internal Alignment Achieved",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-pr-hr-active", "pg-pr-staff-briefed"],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-pr-hr-active": {
+            "id": "pg-pr-hr-active",
+            "description": "HR Investigation Initiated",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-pr-staff-briefed": {
+            "id": "pg-pr-staff-briefed",
+            "description": "All Staff Briefed",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          }
+        }
+      }
+    },
+    "processes": {
+      "proc-pr-root": {
+        "id": "proc-pr-root",
+        "name": "Crisis Communications Response",
+        "notes": "Playbook for managing brand reputation damage caused by viral negative content. Triggered when social media monitoring detects a sudden spike in negative mentions or a trending boycott hashtag.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": [],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-pr-p1", "proc-pr-p2", "proc-pr-p3", "proc-pr-p4"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [], "resultArtifactInStateIds": []
+      },
+      "proc-pr-p1": {
+        "id": "proc-pr-p1",
+        "name": "Verification",
+        "notes": "Confirm the source of the leak or viral video. Assess Viral Velocity — how fast the content is spreading and on which platforms. Determine authenticity before crafting any public response.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms", "role-pr-social"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-pr-confirm-source", "proc-pr-assess-velocity"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-pr-p1-p2"]
+      },
+      "proc-pr-confirm-source": {
+        "id": "proc-pr-confirm-source",
+        "name": "Confirm Source and Authenticate Content",
+        "notes": "Identify where the video or leak originated. Verify authenticity — rule out deepfake or misattribution. Determine if company employees or systems were the source.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms", "role-pr-legal"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-pr-source-confirmed"]
+      },
+      "proc-pr-assess-velocity": {
+        "id": "proc-pr-assess-velocity",
+        "name": "Assess Viral Velocity",
+        "notes": "Use social listening tools to quantify spread rate: impressions per hour, active hashtags, and platform reach. Classify as Low, Moderate, or Critical velocity to determine response urgency.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-pr-social-monitored",
+        "associatedRoleIds": ["role-pr-social"],
+        "activityImpacts": [{ "id": "ai-pr-01", "paragonId": "pg-pr-social-monitored", "newValue": 0.95 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-source-confirmed"],
+        "resultArtifactInStateIds": ["asi-pr-p1-p2"]
+      },
+      "proc-pr-p2": {
+        "id": "proc-pr-p2",
+        "name": "Response Strategy",
+        "notes": "Choose and approve one of three response stances: (1) Apologise and Reform, (2) Defend and Contextualise, or (3) Investigate and Suspend. Notify the Board and legal counsel before any public statement.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms", "role-pr-legal"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-pr-notify-board", "proc-pr-choose-stance"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-p1-p2"],
+        "resultArtifactInStateIds": ["asi-pr-p2-p3"]
+      },
+      "proc-pr-notify-board": {
+        "id": "proc-pr-notify-board",
+        "name": "Notify Board and Legal Counsel",
+        "notes": "Contact the Board of Directors and Legal Counsel using the pre-verified Stakeholder Communication Matrix. Brief them on the situation before any public response is issued.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms"],
+        "activityImpacts": [
+          { "id": "ai-pr-02", "paragonId": "pg-pr-board-notified", "newValue": 0.98 },
+          { "id": "ai-pr-03", "paragonId": "pg-pr-legal-briefed",  "newValue": 0.98 }
+        ],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-pr-board-done"]
+      },
+      "proc-pr-choose-stance": {
+        "id": "proc-pr-choose-stance",
+        "name": "Choose Response Stance and Draft Statement",
+        "notes": "Select response posture with CEO and Legal: Apologise and Reform, Defend and Contextualise, or Investigate and Suspend. Customise a pre-approved holding statement to ensure the company is not silent in the first 60 minutes.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms", "role-pr-legal"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-board-done"],
+        "resultArtifactInStateIds": ["asi-pr-p2-p3"]
+      },
+      "proc-pr-p3": {
+        "id": "proc-pr-p3",
+        "name": "Omnichannel Distribution",
+        "notes": "Release the approved statement simultaneously on the Newswire, Social Media, and via Internal Staff Email. No channel should publish ahead of the others.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-comms", "role-pr-social"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-pr-publish-external", "proc-pr-brief-staff"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-p2-p3"],
+        "resultArtifactInStateIds": ["asi-pr-p3-p4"]
+      },
+      "proc-pr-publish-external": {
+        "id": "proc-pr-publish-external",
+        "name": "Publish Statement on Newswire and Social Media",
+        "notes": "Post the approved statement simultaneously via Newswire feed, company social media accounts, and the corporate website. Time the release precisely.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-pr-statement",
+        "associatedRoleIds": ["role-pr-social"],
+        "activityImpacts": [{ "id": "ai-pr-04", "paragonId": "pg-pr-statement", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-pr-statement-live"]
+      },
+      "proc-pr-brief-staff": {
+        "id": "proc-pr-brief-staff",
+        "name": "Brief All Staff via Internal Email",
+        "notes": "Send an internal communication to all employees at the same time as the external release. Provide approved talking points. Instruct staff to direct media enquiries to the Communications team.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-pr-staff-briefed",
+        "associatedRoleIds": ["role-pr-comms"],
+        "activityImpacts": [{ "id": "ai-pr-05", "paragonId": "pg-pr-staff-briefed", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-statement-live"],
+        "resultArtifactInStateIds": ["asi-pr-p3-p4"]
+      },
+      "proc-pr-p4": {
+        "id": "proc-pr-p4",
+        "name": "Sentiment Monitoring",
+        "notes": "Track whether public anger is cooling or escalating. Determine if a second apology or updated statement is required. Initiate HR investigation into the individual at the centre of the incident.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-social", "role-pr-comms"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-pr-track-sentiment", "proc-pr-hr-investigation"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-p3-p4"],
+        "resultArtifactInStateIds": ["asi-pr-crisis-resolved"]
+      },
+      "proc-pr-track-sentiment": {
+        "id": "proc-pr-track-sentiment",
+        "name": "Track Public Sentiment",
+        "notes": "Monitor social listening dashboards every 30 minutes. Measure whether the statement has reduced negative sentiment. Escalate to second response cycle if anger continues to grow after 4 hours.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-pr-social"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-pr-sentiment-tracked"]
+      },
+      "proc-pr-hr-investigation": {
+        "id": "proc-pr-hr-investigation",
+        "name": "Initiate HR Investigation",
+        "notes": "Open a formal HR investigation into the employee involved. Issue an interim suspension if required by policy. Communicate outcome to stakeholders once the investigation concludes.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-pr-hr-active",
+        "associatedRoleIds": ["role-pr-comms"],
+        "activityImpacts": [{ "id": "ai-pr-06", "paragonId": "pg-pr-hr-active", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-pr-sentiment-tracked"],
+        "resultArtifactInStateIds": ["asi-pr-crisis-resolved"]
+      }
+    },
+    "artifacts": {
+      "art-pr-statement": { "id": "art-pr-statement", "name": "Public Statement", "stateIds": ["as-pr-statement-live"] },
+      "art-pr-comm-matrix": { "id": "art-pr-comm-matrix", "name": "Stakeholder Communication Matrix", "stateIds": ["as-pr-matrix-used"] }
+    },
+    "artifactStates": {
+      "as-pr-statement-live": { "id": "as-pr-statement-live", "artifactId": "art-pr-statement",    "achievedStatus": "COMPLETED", "description": "Approved statement published on all channels", "instanceIds": ["asi-pr-statement-live"] },
+      "as-pr-matrix-used":    { "id": "as-pr-matrix-used",    "artifactId": "art-pr-comm-matrix",  "achievedStatus": "COMPLETED", "description": "Stakeholder matrix consulted for notifications", "instanceIds": ["asi-pr-board-done"] }
+    },
+    "artifactStateInstances": {
+      "asi-pr-source-confirmed": { "id": "asi-pr-source-confirmed", "originatingActivity": "proc-pr-confirm-source",   "usedByActivity": "proc-pr-assess-velocity" },
+      "asi-pr-board-done":       { "id": "asi-pr-board-done",       "originatingActivity": "proc-pr-notify-board",     "usedByActivity": "proc-pr-choose-stance" },
+      "asi-pr-statement-live":   { "id": "asi-pr-statement-live",   "originatingActivity": "proc-pr-publish-external", "usedByActivity": "proc-pr-brief-staff" },
+      "asi-pr-sentiment-tracked":{ "id": "asi-pr-sentiment-tracked","originatingActivity": "proc-pr-track-sentiment",  "usedByActivity": "proc-pr-hr-investigation" },
+      "asi-pr-crisis-resolved":  { "id": "asi-pr-crisis-resolved",  "originatingActivity": "proc-pr-hr-investigation", "usedByActivity": null },
+      "asi-pr-p1-p2":            { "id": "asi-pr-p1-p2",            "originatingActivity": "proc-pr-p1",               "usedByActivity": "proc-pr-p2" },
+      "asi-pr-p2-p3":            { "id": "asi-pr-p2-p3",            "originatingActivity": "proc-pr-p2",               "usedByActivity": "proc-pr-p3" },
+      "asi-pr-p3-p4":            { "id": "asi-pr-p3-p4",            "originatingActivity": "proc-pr-p3",               "usedByActivity": "proc-pr-p4" }
+    },
+    "actuators": {
+      "act-pr-comms":       { "id": "act-pr-comms",       "name": "Head of Communications", "actuatorType": "HUMAN" },
+      "act-pr-social":      { "id": "act-pr-social",      "name": "Social Media Manager",   "actuatorType": "HUMAN" },
+      "act-pr-legal":       { "id": "act-pr-legal",       "name": "Legal Counsel",          "actuatorType": "HUMAN" },
+      "act-pr-monitoring":  { "id": "act-pr-monitoring",  "name": "Social Listening Platform", "actuatorType": "MACHINE" }
+    },
+    "externalReferences": {},
+    "organisations": {
+      "org-pr": { "id": "org-pr", "name": "Corporate Communications", "rootProcessIds": ["proc-pr-root"], "roleIds": ["role-pr-comms", "role-pr-social", "role-pr-legal"] }
+    },
+    "roles": {
+      "role-pr-comms":  { "id": "role-pr-comms",  "name": "Communications Lead", "description": "Owns the public narrative; drafts and approves all statements", "actuatorIds": ["act-pr-comms"] },
+      "role-pr-social": { "id": "role-pr-social",  "name": "Social Media Manager", "description": "Monitors social channels and publishes approved content", "actuatorIds": ["act-pr-social", "act-pr-monitoring"] },
+      "role-pr-legal":  { "id": "role-pr-legal",   "name": "Legal Counsel",        "description": "Reviews all public statements for legal risk and advises on response stance", "actuatorIds": ["act-pr-legal"] }
+    },
+    "resources": {}
+  },
+  "representation": {
+    "dmViews": {
+      "dm-pr": {
+        "nodePositions": {
+          "pg-pr-brand":          { "x": 355, "y": 40  },
+          "pg-pr-viral":          { "x": 40,  "y": 130 },
+          "pg-pr-statement":      { "x": 0,   "y": 220 },
+          "pg-pr-social-monitored":{ "x": 190, "y": 220 },
+          "pg-pr-stakeholders":   { "x": 320, "y": 130 },
+          "pg-pr-board-notified": { "x": 280, "y": 220 },
+          "pg-pr-legal-briefed":  { "x": 470, "y": 220 },
+          "pg-pr-internal":       { "x": 600, "y": 130 },
+          "pg-pr-hr-active":      { "x": 560, "y": 220 },
+          "pg-pr-staff-briefed":  { "x": 750, "y": 220 }
+        },
+        "zoom": 1, "panX": 40, "panY": 20
+      }
+    },
+    "pbViews": {
+      "proc-pr-root": {
+        "nodePositions": {
+          "proc-pr-p1": { "x": 40,  "y": 120 },
+          "proc-pr-p2": { "x": 250, "y": 120 },
+          "proc-pr-p3": { "x": 460, "y": 120 },
+          "proc-pr-p4": { "x": 670, "y": 120 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-pr-p1": {
+        "nodePositions": {
+          "proc-pr-confirm-source":  { "x": 60,  "y": 60 },
+          "proc-pr-assess-velocity": { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-pr-p2": {
+        "nodePositions": {
+          "proc-pr-notify-board":  { "x": 60,  "y": 60 },
+          "proc-pr-choose-stance": { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-pr-p3": {
+        "nodePositions": {
+          "proc-pr-publish-external": { "x": 60,  "y": 60 },
+          "proc-pr-brief-staff":      { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-pr-p4": {
+        "nodePositions": {
+          "proc-pr-track-sentiment":  { "x": 60,  "y": 60 },
+          "proc-pr-hr-investigation": { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      }
+    }
+  }
+}

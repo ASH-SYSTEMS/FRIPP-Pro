@@ -1,0 +1,773 @@
+{
+  "name": "New Project",
+  "version": "1.0",
+  "createdAt": "2026-05-03T06:21:14.183Z",
+  "model": {
+    "dependencyModels": {
+      "66a423b2-802f-48a9-9a61-0c82ca722ce2": {
+        "id": "66a423b2-802f-48a9-9a61-0c82ca722ce2",
+        "name": "Billing Service",
+        "rootId": "76c3bad7-efda-45f4-9257-305576821035",
+        "paragons": {
+          "76c3bad7-efda-45f4-9257-305576821035": {
+            "id": "76c3bad7-efda-45f4-9257-305576821035",
+            "description": "Billing service works correctly",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [
+              "d7c7b78d-795d-481b-8fbe-63e492b25550",
+              "77e68efc-89d5-4ff3-b31c-e594d0981123",
+              "43b6612c-ca66-4c28-974f-7bb82bf0115a",
+              "029a9e38-d36c-4ae0-a8b3-0410e0d2e787",
+              "2a9fe3e5-a421-46a9-95e3-8aa71a757965"
+            ],
+            "criticalThreshold": 0.5,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              {
+                "name": "CEO",
+                "contact": "",
+                "roleId": "d8e3e8eb-e275-4c8e-bf6b-cb02badb92d8"
+              }
+            ]
+          },
+          "d7c7b78d-795d-481b-8fbe-63e492b25550": {
+            "id": "d7c7b78d-795d-481b-8fbe-63e492b25550",
+            "description": "Pricing and rating logic is correct",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "77e68efc-89d5-4ff3-b31c-e594d0981123": {
+            "id": "77e68efc-89d5-4ff3-b31c-e594d0981123",
+            "description": "Invoice generation is correct",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "43b6612c-ca66-4c28-974f-7bb82bf0115a": {
+            "id": "43b6612c-ca66-4c28-974f-7bb82bf0115a",
+            "description": "Payment processing succeeds",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [
+              "c453eab0-d609-4cc1-86f7-b1777033363a",
+              "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58",
+              "7c819176-2adc-468d-a02d-47494399ce5e"
+            ],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": {
+            "id": "029a9e38-d36c-4ae0-a8b3-0410e0d2e787",
+            "description": "External integrations function correctly",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "2a9fe3e5-a421-46a9-95e3-8aa71a757965": {
+            "id": "2a9fe3e5-a421-46a9-95e3-8aa71a757965",
+            "description": "State persistence is correct and consistent",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [
+              "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6",
+              "8dbd77a7-e43d-4ab2-8cba-859299f986ed"
+            ],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "c453eab0-d609-4cc1-86f7-b1777033363a": {
+            "id": "c453eab0-d609-4cc1-86f7-b1777033363a",
+            "description": "Payment gateway reachable",
+            "type": "AND",
+            "leafProbability": 0.75,
+            "childIds": [
+              "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4",
+              "c8df94f1-732d-4df4-89f9-8660b23dcaa3"
+            ],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": {
+            "id": "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58",
+            "description": "Transactions handled correctly",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "7c819176-2adc-468d-a02d-47494399ce5e": {
+            "id": "7c819176-2adc-468d-a02d-47494399ce5e",
+            "description": "Fraud / validation checks pass",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": {
+            "id": "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6",
+            "description": "Databases are available",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "8dbd77a7-e43d-4ab2-8cba-859299f986ed": {
+            "id": "8dbd77a7-e43d-4ab2-8cba-859299f986ed",
+            "description": "Databases are free of corruption and inconsistency",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [
+              "daa323b2-6af0-4a98-a11c-87de5d0a5a58"
+            ],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": {
+            "id": "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4",
+            "description": "(cross-DM reference)",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": 0.76,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [
+              {
+                "name": "IT support",
+                "contact": "",
+                "roleId": "294f7069-157e-415d-b5a1-5ba2bbf45346"
+              }
+            ],
+            "proxyDMId": "9dd1fbcd-797f-4fc4-87ff-5a813d8b2616",
+            "proxyParagonId": "40ea6325-e429-47f9-a56f-1be9a5685f0c"
+          },
+          "c8df94f1-732d-4df4-89f9-8660b23dcaa3": {
+            "id": "c8df94f1-732d-4df4-89f9-8660b23dcaa3",
+            "description": "(cross-DM reference)",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [],
+            "proxyDMId": "9dd1fbcd-797f-4fc4-87ff-5a813d8b2616",
+            "proxyParagonId": "603db98d-1d22-4933-b5f0-22090ffe813c"
+          },
+          "daa323b2-6af0-4a98-a11c-87de5d0a5a58": {
+            "id": "daa323b2-6af0-4a98-a11c-87de5d0a5a58",
+            "description": "(cross-DM reference)",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [],
+            "proxyDMId": "9dd1fbcd-797f-4fc4-87ff-5a813d8b2616",
+            "proxyParagonId": "cf6d81b2-d174-44bb-b247-e8b72dcbcc4c"
+          }
+        }
+      },
+      "9dd1fbcd-797f-4fc4-87ff-5a813d8b2616": {
+        "id": "9dd1fbcd-797f-4fc4-87ff-5a813d8b2616",
+        "name": "IT Dependency Model",
+        "rootId": "c9df1eed-6f86-4430-a649-a19de442b6a5",
+        "paragons": {
+          "c9df1eed-6f86-4430-a649-a19de442b6a5": {
+            "id": "c9df1eed-6f86-4430-a649-a19de442b6a5",
+            "description": "All IT works as it should",
+            "type": "AND",
+            "leafProbability": 1,
+            "childIds": [
+              "40ea6325-e429-47f9-a56f-1be9a5685f0c",
+              "603db98d-1d22-4933-b5f0-22090ffe813c",
+              "cf6d81b2-d174-44bb-b247-e8b72dcbcc4c"
+            ],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": []
+          },
+          "40ea6325-e429-47f9-a56f-1be9a5685f0c": {
+            "id": "40ea6325-e429-47f9-a56f-1be9a5685f0c",
+            "description": "Gateway A is active",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": 0.5,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [
+              {
+                "name": "IT support",
+                "contact": "",
+                "roleId": "294f7069-157e-415d-b5a1-5ba2bbf45346"
+              }
+            ]
+          },
+          "603db98d-1d22-4933-b5f0-22090ffe813c": {
+            "id": "603db98d-1d22-4933-b5f0-22090ffe813c",
+            "description": "Gateway B is active",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": 0.5,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [
+              {
+                "name": "IT support",
+                "contact": "",
+                "roleId": "294f7069-157e-415d-b5a1-5ba2bbf45346"
+              }
+            ]
+          },
+          "cf6d81b2-d174-44bb-b247-e8b72dcbcc4c": {
+            "id": "cf6d81b2-d174-44bb-b247-e8b72dcbcc4c",
+            "description": "Transactions database works",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 1,
+            "childIds": [],
+            "criticalThreshold": null,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [],
+            "proxyDMId": null,
+            "proxyParagonId": null
+          }
+        }
+      }
+    },
+    "organisations": {
+      "f83fcff7-4c12-461a-8532-f26e4004666b": {
+        "id": "f83fcff7-4c12-461a-8532-f26e4004666b",
+        "name": "Vulnerability reported playbook",
+        "roleIds": [
+          "da138981-48f9-4647-b00f-87e300b6b023",
+          "8e484cb6-18d7-4523-8e05-46e9dfe91280",
+          "294f7069-157e-415d-b5a1-5ba2bbf45346",
+          "d8e3e8eb-e275-4c8e-bf6b-cb02badb92d8"
+        ],
+        "rootProcessIds": [
+          "5f11c783-0a89-41f1-a56a-fe90d379a6ad"
+        ]
+      }
+    },
+    "processes": {
+      "5f11c783-0a89-41f1-a56a-fe90d379a6ad": {
+        "id": "5f11c783-0a89-41f1-a56a-fe90d379a6ad",
+        "name": "Incident Response Playbook",
+        "notes": "",
+        "objectives": [],
+        "actionType": "MANUAL",
+        "paragonId": null,
+        "associatedRoleIds": [],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "status": "UNSPECIFIED",
+        "startDate": null,
+        "endDate": null,
+        "subProcessIds": [
+          "cddb1fb9-3d38-4854-8e5a-0cba3330a57f",
+          "a57b0281-e4c4-4b01-b8b3-70c0a47c9005",
+          "319b9b4a-9d31-4330-9653-8f10f2050736",
+          "b0706207-8d2f-4b7f-b8e0-ce6763d04522"
+        ],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": []
+      },
+      "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": {
+        "id": "cddb1fb9-3d38-4854-8e5a-0cba3330a57f",
+        "name": "Identify affected equipment",
+        "notes": "",
+        "objectives": [],
+        "actionType": "MANUAL",
+        "paragonId": null,
+        "associatedRoleIds": [],
+        "activityImpacts": [
+          {
+            "id": "24c7f0df-f38f-4981-b458-8bfd8739fff5",
+            "paragonId": "40ea6325-e429-47f9-a56f-1be9a5685f0c",
+            "newValue": 0.75
+          },
+          {
+            "id": "d40e0074-cd90-4d8c-8374-39df726fd386",
+            "paragonId": "603db98d-1d22-4933-b5f0-22090ffe813c",
+            "newValue": 0.75
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "status": "UNSPECIFIED",
+        "startDate": null,
+        "endDate": null,
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": [
+          "f0a0be72-e6c4-4e2c-8d15-5bd725aa6f2d"
+        ]
+      },
+      "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": {
+        "id": "a57b0281-e4c4-4b01-b8b3-70c0a47c9005",
+        "name": "Contain affected equipment",
+        "notes": "",
+        "objectives": [],
+        "actionType": "MANUAL",
+        "paragonId": null,
+        "associatedRoleIds": [],
+        "activityImpacts": [
+          {
+            "id": "0915a256-9aed-486e-beb9-58dc59358a3e",
+            "paragonId": "40ea6325-e429-47f9-a56f-1be9a5685f0c",
+            "newValue": 0
+          },
+          {
+            "id": "1323eb07-fb62-43b5-b8a6-fbc9c31f4ac4",
+            "paragonId": "603db98d-1d22-4933-b5f0-22090ffe813c",
+            "newValue": 0
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "status": "UNSPECIFIED",
+        "startDate": null,
+        "endDate": null,
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [
+          "f0a0be72-e6c4-4e2c-8d15-5bd725aa6f2d"
+        ],
+        "resultArtifactInStateIds": [
+          "4fa3a1ed-9ef6-4c90-9af0-bdf72d8f699f"
+        ]
+      },
+      "319b9b4a-9d31-4330-9653-8f10f2050736": {
+        "id": "319b9b4a-9d31-4330-9653-8f10f2050736",
+        "name": "apply patch",
+        "notes": "",
+        "objectives": [],
+        "actionType": "MANUAL",
+        "paragonId": null,
+        "associatedRoleIds": [],
+        "activityImpacts": [],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "status": "UNSPECIFIED",
+        "startDate": null,
+        "endDate": null,
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [
+          "4fa3a1ed-9ef6-4c90-9af0-bdf72d8f699f"
+        ],
+        "resultArtifactInStateIds": [
+          "896f2240-5626-43ed-a0d6-650000ffac02"
+        ]
+      },
+      "b0706207-8d2f-4b7f-b8e0-ce6763d04522": {
+        "id": "b0706207-8d2f-4b7f-b8e0-ce6763d04522",
+        "name": "Reconnect affected equipment",
+        "notes": "",
+        "objectives": [],
+        "actionType": "MANUAL",
+        "paragonId": null,
+        "associatedRoleIds": [],
+        "activityImpacts": [
+          {
+            "id": "fc60fca1-57e4-42bc-b17e-fd888a9ba03d",
+            "paragonId": "603db98d-1d22-4933-b5f0-22090ffe813c",
+            "newValue": 1
+          },
+          {
+            "id": "3d05ed25-833e-43c6-acb1-625d9306ef37",
+            "paragonId": "40ea6325-e429-47f9-a56f-1be9a5685f0c",
+            "newValue": 1
+          }
+        ],
+        "externalReferences": [],
+        "relatedReferenceIds": [],
+        "status": "UNSPECIFIED",
+        "startDate": null,
+        "endDate": null,
+        "subProcessIds": [],
+        "resourceIds": [],
+        "resourceUsedIds": [],
+        "artifactInStateUsedIds": [
+          "896f2240-5626-43ed-a0d6-650000ffac02"
+        ],
+        "resultArtifactInStateIds": []
+      }
+    },
+    "artifacts": {
+      "55d7e930-3d83-4daf-a17b-8cfc1876e38d": {
+        "id": "55d7e930-3d83-4daf-a17b-8cfc1876e38d",
+        "name": "Flow",
+        "stateIds": [
+          "3aa14ae1-cc5c-4a88-b7e2-a4079914d99a"
+        ]
+      },
+      "d7f68e88-6df9-424c-a62b-0114117a982e": {
+        "id": "d7f68e88-6df9-424c-a62b-0114117a982e",
+        "name": "Flow",
+        "stateIds": [
+          "dd737950-cb63-49a1-859e-f0e179db66a3"
+        ]
+      },
+      "a72ecbb0-1057-49d0-b71c-d6c768d2931a": {
+        "id": "a72ecbb0-1057-49d0-b71c-d6c768d2931a",
+        "name": "Flow",
+        "stateIds": [
+          "dec3ae41-15bb-485e-ad39-12b633cf3a66"
+        ]
+      }
+    },
+    "artifactStates": {
+      "3aa14ae1-cc5c-4a88-b7e2-a4079914d99a": {
+        "id": "3aa14ae1-cc5c-4a88-b7e2-a4079914d99a",
+        "name": "data",
+        "artifactName": "data",
+        "achievedStatus": false,
+        "instanceIds": [
+          "f0a0be72-e6c4-4e2c-8d15-5bd725aa6f2d"
+        ]
+      },
+      "dd737950-cb63-49a1-859e-f0e179db66a3": {
+        "id": "dd737950-cb63-49a1-859e-f0e179db66a3",
+        "name": "data",
+        "artifactName": "data",
+        "achievedStatus": false,
+        "instanceIds": [
+          "4fa3a1ed-9ef6-4c90-9af0-bdf72d8f699f"
+        ]
+      },
+      "dec3ae41-15bb-485e-ad39-12b633cf3a66": {
+        "id": "dec3ae41-15bb-485e-ad39-12b633cf3a66",
+        "name": "data",
+        "artifactName": "data",
+        "achievedStatus": false,
+        "instanceIds": [
+          "896f2240-5626-43ed-a0d6-650000ffac02"
+        ]
+      }
+    },
+    "artifactStateInstances": {
+      "f0a0be72-e6c4-4e2c-8d15-5bd725aa6f2d": {
+        "id": "f0a0be72-e6c4-4e2c-8d15-5bd725aa6f2d",
+        "originatingActivity": "cddb1fb9-3d38-4854-8e5a-0cba3330a57f",
+        "usedByActivity": "a57b0281-e4c4-4b01-b8b3-70c0a47c9005"
+      },
+      "4fa3a1ed-9ef6-4c90-9af0-bdf72d8f699f": {
+        "id": "4fa3a1ed-9ef6-4c90-9af0-bdf72d8f699f",
+        "originatingActivity": "a57b0281-e4c4-4b01-b8b3-70c0a47c9005",
+        "usedByActivity": "319b9b4a-9d31-4330-9653-8f10f2050736"
+      },
+      "896f2240-5626-43ed-a0d6-650000ffac02": {
+        "id": "896f2240-5626-43ed-a0d6-650000ffac02",
+        "originatingActivity": "319b9b4a-9d31-4330-9653-8f10f2050736",
+        "usedByActivity": "b0706207-8d2f-4b7f-b8e0-ce6763d04522"
+      }
+    },
+    "actuators": {},
+    "externalReferences": {},
+    "roles": {
+      "da138981-48f9-4647-b00f-87e300b6b023": {
+        "id": "da138981-48f9-4647-b00f-87e300b6b023",
+        "name": "Cybersecurity analyst"
+      },
+      "8e484cb6-18d7-4523-8e05-46e9dfe91280": {
+        "id": "8e484cb6-18d7-4523-8e05-46e9dfe91280",
+        "name": "Responder"
+      },
+      "294f7069-157e-415d-b5a1-5ba2bbf45346": {
+        "id": "294f7069-157e-415d-b5a1-5ba2bbf45346",
+        "name": "IT support"
+      },
+      "d8e3e8eb-e275-4c8e-bf6b-cb02badb92d8": {
+        "id": "d8e3e8eb-e275-4c8e-bf6b-cb02badb92d8",
+        "name": "CEO"
+      }
+    },
+    "symbiosis": null
+  },
+  "representation": {
+    "dmViews": {
+      "66a423b2-802f-48a9-9a61-0c82ca722ce2": {
+        "nodePositions": {
+          "76c3bad7-efda-45f4-9257-305576821035": {
+            "x": 800,
+            "y": 40
+          },
+          "d7c7b78d-795d-481b-8fbe-63e492b25550": {
+            "x": 40,
+            "y": 130
+          },
+          "77e68efc-89d5-4ff3-b31c-e594d0981123": {
+            "x": 230,
+            "y": 130
+          },
+          "43b6612c-ca66-4c28-974f-7bb82bf0115a": {
+            "x": 705,
+            "y": 130
+          },
+          "c453eab0-d609-4cc1-86f7-b1777033363a": {
+            "x": 515,
+            "y": 220
+          },
+          "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": {
+            "x": 420,
+            "y": 310
+          },
+          "c8df94f1-732d-4df4-89f9-8660b23dcaa3": {
+            "x": 610,
+            "y": 310
+          },
+          "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": {
+            "x": 800,
+            "y": 220
+          },
+          "7c819176-2adc-468d-a02d-47494399ce5e": {
+            "x": 990,
+            "y": 220
+          },
+          "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": {
+            "x": 1180,
+            "y": 130
+          },
+          "2a9fe3e5-a421-46a9-95e3-8aa71a757965": {
+            "x": 1465,
+            "y": 130
+          },
+          "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": {
+            "x": 1370,
+            "y": 220
+          },
+          "8dbd77a7-e43d-4ab2-8cba-859299f986ed": {
+            "x": 1560,
+            "y": 220
+          },
+          "daa323b2-6af0-4a98-a11c-87de5d0a5a58": {
+            "x": 1560,
+            "y": 310
+          }
+        },
+        "zoom": 0.8494047619047619,
+        "panX": 6.0238095238095255,
+        "panY": 263.67204212007067
+      },
+      "9dd1fbcd-797f-4fc4-87ff-5a813d8b2616": {
+        "nodePositions": {
+          "c9df1eed-6f86-4430-a649-a19de442b6a5": {
+            "x": 135,
+            "y": 40
+          },
+          "40ea6325-e429-47f9-a56f-1be9a5685f0c": {
+            "x": 40,
+            "y": 130
+          },
+          "603db98d-1d22-4933-b5f0-22090ffe813c": {
+            "x": 242.66666666666666,
+            "y": -174.66666666666669
+          },
+          "cf6d81b2-d174-44bb-b247-e8b72dcbcc4c": {
+            "x": 515,
+            "y": 130
+          }
+        },
+        "zoom": 1.0890000000000002,
+        "panX": 76.05699999999979,
+        "panY": 29.404999999999916
+      }
+    },
+    "pbViews": {
+      "5f11c783-0a89-41f1-a56a-fe90d379a6ad": {
+        "nodePositions": {
+          "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": {
+            "x": 60,
+            "y": 60
+          },
+          "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": {
+            "x": 357.1777029554808,
+            "y": 70.45853597705451
+          },
+          "319b9b4a-9d31-4330-9653-8f10f2050736": {
+            "x": 708.2080059857838,
+            "y": 126.093029055992
+          },
+          "b0706207-8d2f-4b7f-b8e0-ce6763d04522": {
+            "x": 1065.3585235066716,
+            "y": -9.834143908217968
+          }
+        },
+        "zoom": 0.8019000000000002,
+        "panX": 93.10699999999997,
+        "panY": 128.5367806045531
+      }
+    }
+  },
+  "snapshots": [
+    {
+      "id": "e5c806ca-5cea-4081-8d1a-01506cc0631e",
+      "label": "03/05/2026, 16:33:01 Original",
+      "createdAt": "03/05/2026, 16:33:05",
+      "paragonProbabilities": {
+        "76c3bad7-efda-45f4-9257-305576821035": 1,
+        "d7c7b78d-795d-481b-8fbe-63e492b25550": 1,
+        "77e68efc-89d5-4ff3-b31c-e594d0981123": 1,
+        "43b6612c-ca66-4c28-974f-7bb82bf0115a": 1,
+        "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": 1,
+        "2a9fe3e5-a421-46a9-95e3-8aa71a757965": 1,
+        "c453eab0-d609-4cc1-86f7-b1777033363a": 0.75,
+        "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": 1,
+        "7c819176-2adc-468d-a02d-47494399ce5e": 1,
+        "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": 1,
+        "8dbd77a7-e43d-4ab2-8cba-859299f986ed": 1,
+        "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": 1,
+        "c9df1eed-6f86-4430-a649-a19de442b6a5": 1,
+        "40ea6325-e429-47f9-a56f-1be9a5685f0c": 1,
+        "603db98d-1d22-4933-b5f0-22090ffe813c": 1
+      },
+      "activityStatuses": {
+        "5f11c783-0a89-41f1-a56a-fe90d379a6ad": "UNSPECIFIED",
+        "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": "UNSPECIFIED",
+        "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": "UNSPECIFIED",
+        "319b9b4a-9d31-4330-9653-8f10f2050736": "UNSPECIFIED",
+        "b0706207-8d2f-4b7f-b8e0-ce6763d04522": "UNSPECIFIED"
+      }
+    },
+    {
+      "id": "806f0a65-f702-41be-87f6-b1e6aca19c1b",
+      "label": "03/05/2026, 16:34:34 Incident effect",
+      "createdAt": "03/05/2026, 16:34:39",
+      "paragonProbabilities": {
+        "76c3bad7-efda-45f4-9257-305576821035": 1,
+        "d7c7b78d-795d-481b-8fbe-63e492b25550": 1,
+        "77e68efc-89d5-4ff3-b31c-e594d0981123": 1,
+        "43b6612c-ca66-4c28-974f-7bb82bf0115a": 1,
+        "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": 1,
+        "2a9fe3e5-a421-46a9-95e3-8aa71a757965": 1,
+        "c453eab0-d609-4cc1-86f7-b1777033363a": 0.75,
+        "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": 1,
+        "7c819176-2adc-468d-a02d-47494399ce5e": 1,
+        "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": 1,
+        "8dbd77a7-e43d-4ab2-8cba-859299f986ed": 1,
+        "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": 1,
+        "c9df1eed-6f86-4430-a649-a19de442b6a5": 1,
+        "40ea6325-e429-47f9-a56f-1be9a5685f0c": 0.75,
+        "603db98d-1d22-4933-b5f0-22090ffe813c": 0.75
+      },
+      "activityStatuses": {
+        "5f11c783-0a89-41f1-a56a-fe90d379a6ad": "UNSPECIFIED",
+        "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": "COMPLETED",
+        "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": "UNSPECIFIED",
+        "319b9b4a-9d31-4330-9653-8f10f2050736": "UNSPECIFIED",
+        "b0706207-8d2f-4b7f-b8e0-ce6763d04522": "UNSPECIFIED"
+      }
+    },
+    {
+      "id": "073c3a72-58d3-44a4-b641-0c8f227d1bda",
+      "label": "03/05/2026, 16:34:58 Containment",
+      "createdAt": "03/05/2026, 16:35:02",
+      "paragonProbabilities": {
+        "76c3bad7-efda-45f4-9257-305576821035": 1,
+        "d7c7b78d-795d-481b-8fbe-63e492b25550": 1,
+        "77e68efc-89d5-4ff3-b31c-e594d0981123": 1,
+        "43b6612c-ca66-4c28-974f-7bb82bf0115a": 1,
+        "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": 1,
+        "2a9fe3e5-a421-46a9-95e3-8aa71a757965": 1,
+        "c453eab0-d609-4cc1-86f7-b1777033363a": 0.75,
+        "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": 1,
+        "7c819176-2adc-468d-a02d-47494399ce5e": 1,
+        "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": 1,
+        "8dbd77a7-e43d-4ab2-8cba-859299f986ed": 1,
+        "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": 1,
+        "c9df1eed-6f86-4430-a649-a19de442b6a5": 1,
+        "40ea6325-e429-47f9-a56f-1be9a5685f0c": 0,
+        "603db98d-1d22-4933-b5f0-22090ffe813c": 0
+      },
+      "activityStatuses": {
+        "5f11c783-0a89-41f1-a56a-fe90d379a6ad": "UNSPECIFIED",
+        "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": "COMPLETED",
+        "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": "COMPLETED",
+        "319b9b4a-9d31-4330-9653-8f10f2050736": "UNSPECIFIED",
+        "b0706207-8d2f-4b7f-b8e0-ce6763d04522": "UNSPECIFIED"
+      }
+    },
+    {
+      "id": "09daab2f-3df8-4d17-a8bd-9efa087c4fd3",
+      "label": "03/05/2026, 16:35:12 Restored",
+      "createdAt": "03/05/2026, 16:35:16",
+      "paragonProbabilities": {
+        "76c3bad7-efda-45f4-9257-305576821035": 1,
+        "d7c7b78d-795d-481b-8fbe-63e492b25550": 1,
+        "77e68efc-89d5-4ff3-b31c-e594d0981123": 1,
+        "43b6612c-ca66-4c28-974f-7bb82bf0115a": 1,
+        "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": 1,
+        "2a9fe3e5-a421-46a9-95e3-8aa71a757965": 1,
+        "c453eab0-d609-4cc1-86f7-b1777033363a": 0.75,
+        "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": 1,
+        "7c819176-2adc-468d-a02d-47494399ce5e": 1,
+        "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": 1,
+        "8dbd77a7-e43d-4ab2-8cba-859299f986ed": 1,
+        "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": 1,
+        "c9df1eed-6f86-4430-a649-a19de442b6a5": 1,
+        "40ea6325-e429-47f9-a56f-1be9a5685f0c": 1,
+        "603db98d-1d22-4933-b5f0-22090ffe813c": 1
+      },
+      "activityStatuses": {
+        "5f11c783-0a89-41f1-a56a-fe90d379a6ad": "UNSPECIFIED",
+        "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": "COMPLETED",
+        "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": "COMPLETED",
+        "319b9b4a-9d31-4330-9653-8f10f2050736": "COMPLETED",
+        "b0706207-8d2f-4b7f-b8e0-ce6763d04522": "COMPLETED"
+      }
+    }
+  ],
+  "baseline": {
+    "paragonProbabilities": {
+      "76c3bad7-efda-45f4-9257-305576821035": 1,
+      "d7c7b78d-795d-481b-8fbe-63e492b25550": 1,
+      "77e68efc-89d5-4ff3-b31c-e594d0981123": 1,
+      "43b6612c-ca66-4c28-974f-7bb82bf0115a": 1,
+      "029a9e38-d36c-4ae0-a8b3-0410e0d2e787": 1,
+      "2a9fe3e5-a421-46a9-95e3-8aa71a757965": 1,
+      "c453eab0-d609-4cc1-86f7-b1777033363a": 0.75,
+      "9f9e5b7d-8bb0-467a-ac4b-e62c4d2cda58": 1,
+      "7c819176-2adc-468d-a02d-47494399ce5e": 1,
+      "6d4c78c8-55d6-4af3-8a5c-00c4928a02b6": 1,
+      "8dbd77a7-e43d-4ab2-8cba-859299f986ed": 1,
+      "0e07e3f3-d65c-4d2c-b4af-1c19c4729fb4": 1,
+      "c9df1eed-6f86-4430-a649-a19de442b6a5": 1,
+      "40ea6325-e429-47f9-a56f-1be9a5685f0c": 1,
+      "603db98d-1d22-4933-b5f0-22090ffe813c": 1
+    },
+    "activityStatuses": {
+      "5f11c783-0a89-41f1-a56a-fe90d379a6ad": "UNSPECIFIED",
+      "cddb1fb9-3d38-4854-8e5a-0cba3330a57f": "UNSPECIFIED",
+      "a57b0281-e4c4-4b01-b8b3-70c0a47c9005": "UNSPECIFIED",
+      "319b9b4a-9d31-4330-9653-8f10f2050736": "UNSPECIFIED",
+      "b0706207-8d2f-4b7f-b8e0-ce6763d04522": "UNSPECIFIED"
+    }
+  }
+}

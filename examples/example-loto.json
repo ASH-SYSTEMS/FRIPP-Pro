@@ -1,0 +1,404 @@
+{
+  "name": "Workplace Medical Emergency — LOTO Response",
+  "version": "1.0",
+  "model": {
+    "dependencyModels": {
+      "dm-lo": {
+        "id": "dm-lo",
+        "name": "Workplace Safety Model",
+        "rootId": "pg-lo-safety",
+        "paragons": {
+          "pg-lo-safety": {
+            "id": "pg-lo-safety",
+            "description": "Workplace Safety Restored",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-lo-casualty", "pg-lo-machine-safe", "pg-lo-compliance"],
+            "criticalThreshold": 0.8,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "Plant Manager", "contact": "plant.manager@factory.com", "roleId": null },
+              { "name": "Safety Officer", "contact": "safety@factory.com", "roleId": "role-lo-safety" }
+            ]
+          },
+          "pg-lo-casualty": {
+            "id": "pg-lo-casualty",
+            "description": "Casualty Receiving Treatment",
+            "type": "OR",
+            "leafProbability": 1.0,
+            "childIds": ["pg-lo-first-aid", "pg-lo-ems"],
+            "criticalThreshold": 0.95,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [{ "name": "First Aid Coordinator", "contact": "first-aid@factory.com", "roleId": "role-lo-firstaid" }]
+          },
+          "pg-lo-first-aid": {
+            "id": "pg-lo-first-aid",
+            "description": "First Aid Administered",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-lo-ems": {
+            "id": "pg-lo-ems",
+            "description": "Emergency Medical Services On-Site",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.15,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-lo-machine-safe": {
+            "id": "pg-lo-machine-safe",
+            "description": "Machine Made Safe (LOTO Applied)",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-lo-locked-out", "pg-lo-zero-energy"],
+            "criticalThreshold": 0.9,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [{ "name": "Safety Officer", "contact": "safety@factory.com", "roleId": "role-lo-safety" }]
+          },
+          "pg-lo-locked-out": {
+            "id": "pg-lo-locked-out",
+            "description": "Machine Power Switch Locked Out",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-lo-zero-energy": {
+            "id": "pg-lo-zero-energy",
+            "description": "Zero Energy State Verified",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-lo-compliance": {
+            "id": "pg-lo-compliance",
+            "description": "Regulatory Compliance",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-lo-scene-preserved", "pg-lo-osha-filed"],
+            "criticalThreshold": 0.8,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [{ "name": "HR Director", "contact": "hr@factory.com", "roleId": null }]
+          },
+          "pg-lo-scene-preserved": {
+            "id": "pg-lo-scene-preserved",
+            "description": "Incident Scene Preserved",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.3,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-lo-osha-filed": {
+            "id": "pg-lo-osha-filed",
+            "description": "OSHA Incident Report Filed",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          }
+        }
+      }
+    },
+    "processes": {
+      "proc-lo-root": {
+        "id": "proc-lo-root",
+        "name": "Medical Emergency / LOTO Response",
+        "notes": "Lock-Out, Tag-Out (LOTO) safety playbook for a severe workplace injury or medical emergency on the assembly line. Triggered when an E-Stop is pulled by a coworker or a 911 call is placed from the floor.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": [],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-lo-p1", "proc-lo-p2", "proc-lo-p3", "proc-lo-p4"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [], "resultArtifactInStateIds": []
+      },
+      "proc-lo-p1": {
+        "id": "proc-lo-p1",
+        "name": "Life Safety",
+        "notes": "Immediately clear the area around the injured worker. Administer first aid or AED if trained. Call 911 and clear a path for paramedics.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-firstaid", "role-lo-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-lo-first-aid", "proc-lo-call-ems"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-lo-p1-p2"]
+      },
+      "proc-lo-first-aid": {
+        "id": "proc-lo-first-aid",
+        "name": "Administer First Aid / AED",
+        "notes": "Trained first aider clears the immediate area. Administer CPR or AED if the worker is unresponsive. Do not move the worker unless they are in immediate further danger.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-lo-first-aid",
+        "associatedRoleIds": ["role-lo-firstaid"],
+        "activityImpacts": [{ "id": "ai-lo-01", "paragonId": "pg-lo-first-aid", "newValue": 0.92 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-lo-firstaid-done"]
+      },
+      "proc-lo-call-ems": {
+        "id": "proc-lo-call-ems",
+        "name": "Call Emergency Services and Clear Path",
+        "notes": "Dial 911. Give exact location on the factory floor. Designate a runner to meet paramedics at the entrance and escort them directly to the casualty. Clear all obstructions from the route.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-lo-ems",
+        "associatedRoleIds": ["role-lo-supervisor"],
+        "activityImpacts": [{ "id": "ai-lo-02", "paragonId": "pg-lo-ems", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-firstaid-done"],
+        "resultArtifactInStateIds": ["asi-lo-p1-p2"]
+      },
+      "proc-lo-p2": {
+        "id": "proc-lo-p2",
+        "name": "Zero Energy State",
+        "notes": "Physically lock the machine's power switch in the OFF position with a personal padlock. Verify all energy sources — electrical, hydraulic, and pneumatic — are at zero before anyone approaches the machine.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-safety", "role-lo-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-lo-lockout", "proc-lo-verify-energy"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-p1-p2"],
+        "resultArtifactInStateIds": ["asi-lo-p2-p3"]
+      },
+      "proc-lo-lockout": {
+        "id": "proc-lo-lockout",
+        "name": "Apply LOTO — Lock Machine Power Switch",
+        "notes": "Turn the machine's main power switch to the OFF position. Attach a personal padlock through the switch hasp. Attach an OSHA-compliant tag stating the reason, locker name, and date.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-lo-locked-out",
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [{ "id": "ai-lo-03", "paragonId": "pg-lo-locked-out", "newValue": 0.99 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-lo-loto-applied"]
+      },
+      "proc-lo-verify-energy": {
+        "id": "proc-lo-verify-energy",
+        "name": "Verify Zero Energy State",
+        "notes": "Test all energy sources: attempt to start the machine (confirms electrical zero), check hydraulic pressure gauges, and bleed pneumatic lines. Document verification in the LOTO log.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-lo-zero-energy",
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [{ "id": "ai-lo-04", "paragonId": "pg-lo-zero-energy", "newValue": 0.99 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-loto-applied"],
+        "resultArtifactInStateIds": ["asi-lo-p2-p3"]
+      },
+      "proc-lo-p3": {
+        "id": "proc-lo-p3",
+        "name": "Evidence Preservation",
+        "notes": "Preserve the incident scene exactly as found — do not move the machine, tools, or debris unless required to save a life. The Safety Officer must secure the area before OSHA investigators arrive.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-lo-secure-scene", "proc-lo-osha-report"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-p2-p3"],
+        "resultArtifactInStateIds": ["asi-lo-p3-p4"]
+      },
+      "proc-lo-secure-scene": {
+        "id": "proc-lo-secure-scene",
+        "name": "Secure and Photograph the Incident Scene",
+        "notes": "Cordon off the machine and surrounding area with barrier tape. Photograph all positions of machinery, tools, and any bodily fluids before anything is touched. Post a guard to prevent unauthorised access.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-lo-scene-preserved",
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [{ "id": "ai-lo-05", "paragonId": "pg-lo-scene-preserved", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-lo-scene-done"]
+      },
+      "proc-lo-osha-report": {
+        "id": "proc-lo-osha-report",
+        "name": "File OSHA Incident Report",
+        "notes": "Complete the OSHA 300 log entry within 24 hours. For severe injuries or hospitalisations, notify OSHA verbally within 24 hours and in writing within 72 hours. Retain the Incident Report Form with witness statements.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["PREVENTION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-lo-osha-filed",
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [{ "id": "ai-lo-06", "paragonId": "pg-lo-osha-filed", "newValue": 0.98 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-scene-done"],
+        "resultArtifactInStateIds": ["asi-lo-p3-p4"]
+      },
+      "proc-lo-p4": {
+        "id": "proc-lo-p4",
+        "name": "Re-Certification",
+        "notes": "The assembly line cannot restart until a third-party engineer has inspected and certified that all guardrails, safety interlocks, and protective systems are functioning correctly.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["PREVENTION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-safety", "role-lo-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-lo-engineer-review", "proc-lo-restart"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-p3-p4"],
+        "resultArtifactInStateIds": ["asi-lo-line-certified"]
+      },
+      "proc-lo-engineer-review": {
+        "id": "proc-lo-engineer-review",
+        "name": "Third-Party Engineering Inspection",
+        "notes": "Commission an independent certified engineer to inspect the machine. Verify all guardrails are intact, safety interlocks are functional, and the root cause of the incident has been remediated.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["PREVENTION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-safety"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-lo-inspection-done"]
+      },
+      "proc-lo-restart": {
+        "id": "proc-lo-restart",
+        "name": "Remove LOTO and Restart Production Line",
+        "notes": "Only after the engineering sign-off is received: remove padlock and LOTO tag. Brief all returning operators on what changed. Conduct a supervised test run before full production restarts.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-lo-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-lo-inspection-done"],
+        "resultArtifactInStateIds": ["asi-lo-line-certified"]
+      }
+    },
+    "artifacts": {
+      "art-lo-jha":          { "id": "art-lo-jha",          "name": "Job Hazard Analysis",   "stateIds": ["as-lo-jha-active"] },
+      "art-lo-incident-form":{ "id": "art-lo-incident-form","name": "OSHA Incident Report Form", "stateIds": ["as-lo-osha-filed"] }
+    },
+    "artifactStates": {
+      "as-lo-jha-active": { "id": "as-lo-jha-active", "artifactId": "art-lo-jha",          "achievedStatus": "COMPLETED", "description": "JHA consulted to identify energy sources and pinch points", "instanceIds": ["asi-lo-loto-applied"] },
+      "as-lo-osha-filed": { "id": "as-lo-osha-filed", "artifactId": "art-lo-incident-form","achievedStatus": "COMPLETED", "description": "OSHA 300 log entry and incident form completed",            "instanceIds": ["asi-lo-scene-done"] }
+    },
+    "artifactStateInstances": {
+      "asi-lo-firstaid-done":    { "id": "asi-lo-firstaid-done",    "originatingActivity": "proc-lo-first-aid",     "usedByActivity": "proc-lo-call-ems" },
+      "asi-lo-loto-applied":     { "id": "asi-lo-loto-applied",     "originatingActivity": "proc-lo-lockout",       "usedByActivity": "proc-lo-verify-energy" },
+      "asi-lo-scene-done":       { "id": "asi-lo-scene-done",       "originatingActivity": "proc-lo-secure-scene",  "usedByActivity": "proc-lo-osha-report" },
+      "asi-lo-inspection-done":  { "id": "asi-lo-inspection-done",  "originatingActivity": "proc-lo-engineer-review","usedByActivity": "proc-lo-restart" },
+      "asi-lo-line-certified":   { "id": "asi-lo-line-certified",   "originatingActivity": "proc-lo-restart",       "usedByActivity": null },
+      "asi-lo-p1-p2":            { "id": "asi-lo-p1-p2",            "originatingActivity": "proc-lo-p1",            "usedByActivity": "proc-lo-p2" },
+      "asi-lo-p2-p3":            { "id": "asi-lo-p2-p3",            "originatingActivity": "proc-lo-p2",            "usedByActivity": "proc-lo-p3" },
+      "asi-lo-p3-p4":            { "id": "asi-lo-p3-p4",            "originatingActivity": "proc-lo-p3",            "usedByActivity": "proc-lo-p4" }
+    },
+    "actuators": {
+      "act-lo-safety":     { "id": "act-lo-safety",     "name": "Safety Officer",       "actuatorType": "HUMAN" },
+      "act-lo-firstaid":   { "id": "act-lo-firstaid",   "name": "First Aid Coordinator","actuatorType": "HUMAN" },
+      "act-lo-supervisor": { "id": "act-lo-supervisor", "name": "Line Supervisor",      "actuatorType": "HUMAN" }
+    },
+    "externalReferences": {},
+    "organisations": {
+      "org-lo": { "id": "org-lo", "name": "Manufacturing Assembly Plant", "rootProcessIds": ["proc-lo-root"], "roleIds": ["role-lo-safety", "role-lo-firstaid", "role-lo-supervisor"] }
+    },
+    "roles": {
+      "role-lo-safety":     { "id": "role-lo-safety",     "name": "Safety Officer",        "description": "Owns LOTO procedures, scene preservation, and OSHA reporting", "actuatorIds": ["act-lo-safety"] },
+      "role-lo-firstaid":   { "id": "role-lo-firstaid",   "name": "First Aid Coordinator", "description": "Certified in first aid and AED; responsible for immediate casualty care", "actuatorIds": ["act-lo-firstaid"] },
+      "role-lo-supervisor": { "id": "role-lo-supervisor", "name": "Line Supervisor",       "description": "Manages line personnel and coordinates EMS access and re-start authorisation", "actuatorIds": ["act-lo-supervisor"] }
+    },
+    "resources": {}
+  },
+  "representation": {
+    "dmViews": {
+      "dm-lo": {
+        "nodePositions": {
+          "pg-lo-safety":         { "x": 355, "y": 40  },
+          "pg-lo-casualty":       { "x": 40,  "y": 130 },
+          "pg-lo-first-aid":      { "x": 0,   "y": 220 },
+          "pg-lo-ems":            { "x": 190, "y": 220 },
+          "pg-lo-machine-safe":   { "x": 320, "y": 130 },
+          "pg-lo-locked-out":     { "x": 280, "y": 220 },
+          "pg-lo-zero-energy":    { "x": 470, "y": 220 },
+          "pg-lo-compliance":     { "x": 600, "y": 130 },
+          "pg-lo-scene-preserved":{ "x": 560, "y": 220 },
+          "pg-lo-osha-filed":     { "x": 750, "y": 220 }
+        },
+        "zoom": 1, "panX": 40, "panY": 20
+      }
+    },
+    "pbViews": {
+      "proc-lo-root": {
+        "nodePositions": {
+          "proc-lo-p1": { "x": 40,  "y": 120 },
+          "proc-lo-p2": { "x": 250, "y": 120 },
+          "proc-lo-p3": { "x": 460, "y": 120 },
+          "proc-lo-p4": { "x": 670, "y": 120 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-lo-p1": {
+        "nodePositions": {
+          "proc-lo-first-aid": { "x": 60,  "y": 60 },
+          "proc-lo-call-ems":  { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-lo-p2": {
+        "nodePositions": {
+          "proc-lo-lockout":      { "x": 60,  "y": 60 },
+          "proc-lo-verify-energy":{ "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-lo-p3": {
+        "nodePositions": {
+          "proc-lo-secure-scene": { "x": 60,  "y": 60 },
+          "proc-lo-osha-report":  { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-lo-p4": {
+        "nodePositions": {
+          "proc-lo-engineer-review": { "x": 60,  "y": 60 },
+          "proc-lo-restart":         { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      }
+    }
+  }
+}

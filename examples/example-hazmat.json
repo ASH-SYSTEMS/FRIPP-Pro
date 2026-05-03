@@ -1,0 +1,403 @@
+{
+  "name": "HAZMAT Spill Response",
+  "version": "1.0",
+  "model": {
+    "dependencyModels": {
+      "dm-hz": {
+        "id": "dm-hz",
+        "name": "Site Safety Model",
+        "rootId": "pg-hz-site-safety",
+        "paragons": {
+          "pg-hz-site-safety": {
+            "id": "pg-hz-site-safety",
+            "description": "Site Safety Restored",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-hz-personnel", "pg-hz-spill-contained", "pg-hz-compliance"],
+            "criticalThreshold": 0.75,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [
+              { "name": "Site Manager", "contact": "site.manager@warehouse.com", "roleId": null },
+              { "name": "EHS Director", "contact": "ehs@warehouse.com", "roleId": null }
+            ]
+          },
+          "pg-hz-personnel": {
+            "id": "pg-hz-personnel",
+            "description": "Personnel Evacuation Complete",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-hz-zone-cleared", "pg-hz-accounted"],
+            "criticalThreshold": 0.9,
+            "notifyMode": "REQUEST_APPROVAL",
+            "stakeholders": [{ "name": "Floor Supervisor", "contact": "ext-101", "roleId": "role-hz-supervisor" }]
+          },
+          "pg-hz-zone-cleared": {
+            "id": "pg-hz-zone-cleared",
+            "description": "Affected Zone Cleared",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-hz-accounted": {
+            "id": "pg-hz-accounted",
+            "description": "All Workers Accounted For",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.2,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-hz-spill-contained": {
+            "id": "pg-hz-spill-contained",
+            "description": "Spill Contained and Neutralized",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-hz-neutralized", "pg-hz-drains"],
+            "criticalThreshold": 0.85,
+            "notifyMode": "NOTIFY_ONLY",
+            "stakeholders": [{ "name": "EHS Officer", "contact": "ehs-officer@warehouse.com", "roleId": "role-hz-ehs" }]
+          },
+          "pg-hz-neutralized": {
+            "id": "pg-hz-neutralized",
+            "description": "Chemical Agent Neutralized",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-hz-drains": {
+            "id": "pg-hz-drains",
+            "description": "Floor Drains Blocked",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.3,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-hz-compliance": {
+            "id": "pg-hz-compliance",
+            "description": "Regulatory Compliance",
+            "type": "AND",
+            "leafProbability": 1.0,
+            "childIds": ["pg-hz-agency", "pg-hz-sds"],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-hz-agency": {
+            "id": "pg-hz-agency",
+            "description": "Environmental Agency Notified",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.1,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          },
+          "pg-hz-sds": {
+            "id": "pg-hz-sds",
+            "description": "SDS Consulted and Understood",
+            "type": "UNCONTROLLABLE",
+            "leafProbability": 0.4,
+            "childIds": [],
+            "criticalThreshold": null, "notifyMode": "NOTIFY_ONLY", "stakeholders": []
+          }
+        }
+      }
+    },
+    "processes": {
+      "proc-hz-root": {
+        "id": "proc-hz-root",
+        "name": "HAZMAT Spill Response",
+        "notes": "Contain-Notify-Neutralize playbook for industrial chemical spill response. Triggered when a liquid spill is spotted, accompanied by chemical odours or worker complaints of eye/skin irritation.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": [],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-hz-p1", "proc-hz-p2", "proc-hz-p3", "proc-hz-p4"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [], "resultArtifactInStateIds": []
+      },
+      "proc-hz-p1": {
+        "id": "proc-hz-p1",
+        "name": "Immediate Safety",
+        "notes": "Trigger Code Orange if spill > 5 litres. Evacuate affected zone and account for all personnel before any remediation begins.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-hz-evacuate", "proc-hz-account"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-hz-p1-p2"]
+      },
+      "proc-hz-evacuate": {
+        "id": "proc-hz-evacuate",
+        "name": "Trigger Zone Evacuation",
+        "notes": "Sound Code Orange alarm. Evacuate all personnel from the affected zone and adjacent areas. Post barrier tape at the perimeter.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-hz-zone-cleared",
+        "associatedRoleIds": ["role-hz-supervisor"],
+        "activityImpacts": [{ "id": "ai-hz-01", "paragonId": "pg-hz-zone-cleared", "newValue": 0.97 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-hz-evac-done"]
+      },
+      "proc-hz-account": {
+        "id": "proc-hz-account",
+        "name": "Account for All Personnel",
+        "notes": "Use muster list to verify every worker is outside the zone. Identify any missing persons and escalate immediately if any are unaccounted for.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-hz-accounted",
+        "associatedRoleIds": ["role-hz-supervisor"],
+        "activityImpacts": [{ "id": "ai-hz-02", "paragonId": "pg-hz-accounted", "newValue": 0.98 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-evac-done"],
+        "resultArtifactInStateIds": ["asi-hz-muster-done"]
+      },
+      "proc-hz-p2": {
+        "id": "proc-hz-p2",
+        "name": "Identification",
+        "notes": "Cross-reference the drum label with the SDS Library. Identify the chemical agent, required PPE level, and the specific neutralizer to deploy.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-ehs"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-hz-sds-check", "proc-hz-assess"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-p1-p2"],
+        "resultArtifactInStateIds": ["asi-hz-p2-p3"]
+      },
+      "proc-hz-sds-check": {
+        "id": "proc-hz-sds-check",
+        "name": "Consult SDS Library",
+        "notes": "Locate the relevant Safety Data Sheet for the spilled substance. Identify correct PPE classification (Level A–D) and the required neutralizing agent.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-hz-sds",
+        "associatedRoleIds": ["role-hz-ehs"],
+        "activityImpacts": [{ "id": "ai-hz-03", "paragonId": "pg-hz-sds", "newValue": 0.99 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-hz-sds-done"]
+      },
+      "proc-hz-assess": {
+        "id": "proc-hz-assess",
+        "name": "Assess Spill Volume and Vapour Risk",
+        "notes": "Estimate spill size in litres. Check whether vapours are approaching the HVAC intake. Determine if municipal HAZMAT unit must be called.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["INVESTIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-ehs"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-sds-done"],
+        "resultArtifactInStateIds": ["asi-hz-p2-p3"]
+      },
+      "proc-hz-p3": {
+        "id": "proc-hz-p3",
+        "name": "Containment",
+        "notes": "Deploy absorbent socks to circle the spill. Block all nearby floor drains. Apply neutralizing agent from the spill kit per SDS instructions.",
+        "actionType": "DUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-ehs", "role-hz-hazmat"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-hz-block-drains", "proc-hz-neutralize"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-p2-p3"],
+        "resultArtifactInStateIds": ["asi-hz-p3-p4"]
+      },
+      "proc-hz-block-drains": {
+        "id": "proc-hz-block-drains",
+        "name": "Deploy Absorbent Socks and Block Drains",
+        "notes": "Place absorbent sock barriers around the spill perimeter to prevent spread. Install drain plugs on all nearby floor drains to prevent contamination entering the sewage system.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["MITIGATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-hz-drains",
+        "associatedRoleIds": ["role-hz-hazmat"],
+        "activityImpacts": [{ "id": "ai-hz-04", "paragonId": "pg-hz-drains", "newValue": 0.96 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-hz-drains-done"]
+      },
+      "proc-hz-neutralize": {
+        "id": "proc-hz-neutralize",
+        "name": "Apply Neutralizing Agent",
+        "notes": "Don PPE at the SDS-specified level. Apply neutralizing agent from the spill kit. Monitor pH readings until the spill area returns to neutral. Declare spill neutralized.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-hz-neutralized",
+        "associatedRoleIds": ["role-hz-hazmat"],
+        "activityImpacts": [{ "id": "ai-hz-05", "paragonId": "pg-hz-neutralized", "newValue": 0.95 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-drains-done"],
+        "resultArtifactInStateIds": ["asi-hz-p3-p4"]
+      },
+      "proc-hz-p4": {
+        "id": "proc-hz-p4",
+        "name": "Escalation and Reporting",
+        "notes": "If vapours reached the HVAC intake, call the municipal Fire Department HAZMAT unit. Complete mandatory environmental reporting. Dispose of contaminated materials through licensed channels.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["PREVENTION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-ehs", "role-hz-supervisor"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": ["proc-hz-notify-agency", "proc-hz-dispose"],
+        "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-p3-p4"],
+        "resultArtifactInStateIds": ["asi-hz-incident-closed"]
+      },
+      "proc-hz-notify-agency": {
+        "id": "proc-hz-notify-agency",
+        "name": "Notify Environmental Agency",
+        "notes": "File mandatory spill report with the environmental protection authority within the legally required window. Contact municipal HAZMAT unit if HVAC contamination is confirmed.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["PREVENTION"],
+        "startDate": null, "endDate": null,
+        "paragonId": "pg-hz-agency",
+        "associatedRoleIds": ["role-hz-ehs"],
+        "activityImpacts": [{ "id": "ai-hz-06", "paragonId": "pg-hz-agency", "newValue": 0.99 }],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": [],
+        "resultArtifactInStateIds": ["asi-hz-notify-done"]
+      },
+      "proc-hz-dispose": {
+        "id": "proc-hz-dispose",
+        "name": "Dispose of Contaminated Materials",
+        "notes": "Package used spill kit materials and contaminated PPE in labelled hazardous waste bags. Arrange collection by a licensed hazardous waste disposal contractor. Complete disposal manifest.",
+        "actionType": "MANUAL",
+        "status": "UNSPECIFIED",
+        "objectives": ["REMEDIATION"],
+        "startDate": null, "endDate": null, "paragonId": null,
+        "associatedRoleIds": ["role-hz-hazmat"],
+        "activityImpacts": [],
+        "externalReferences": [], "relatedReferenceIds": [],
+        "subProcessIds": [], "resourceIds": [], "resourceUsedIds": [],
+        "artifactInStateUsedIds": ["asi-hz-notify-done"],
+        "resultArtifactInStateIds": ["asi-hz-incident-closed"]
+      }
+    },
+    "artifacts": {
+      "art-hz-spill-report": { "id": "art-hz-spill-report", "name": "Spill Incident Report", "stateIds": ["as-hz-report-filed"] },
+      "art-hz-muster-list":  { "id": "art-hz-muster-list",  "name": "Personnel Muster List",  "stateIds": ["as-hz-muster-done"] }
+    },
+    "artifactStates": {
+      "as-hz-report-filed": { "id": "as-hz-report-filed", "artifactId": "art-hz-spill-report", "achievedStatus": "COMPLETED", "description": "Spill report filed with regulatory authority", "instanceIds": ["asi-hz-notify-done"] },
+      "as-hz-muster-done":  { "id": "as-hz-muster-done",  "artifactId": "art-hz-muster-list",  "achievedStatus": "COMPLETED", "description": "All personnel accounted for on muster",    "instanceIds": ["asi-hz-muster-done"] }
+    },
+    "artifactStateInstances": {
+      "asi-hz-evac-done":       { "id": "asi-hz-evac-done",       "originatingActivity": "proc-hz-evacuate",     "usedByActivity": "proc-hz-account" },
+      "asi-hz-muster-done":     { "id": "asi-hz-muster-done",     "originatingActivity": "proc-hz-account",      "usedByActivity": null },
+      "asi-hz-sds-done":        { "id": "asi-hz-sds-done",        "originatingActivity": "proc-hz-sds-check",    "usedByActivity": "proc-hz-assess" },
+      "asi-hz-drains-done":     { "id": "asi-hz-drains-done",     "originatingActivity": "proc-hz-block-drains", "usedByActivity": "proc-hz-neutralize" },
+      "asi-hz-notify-done":     { "id": "asi-hz-notify-done",     "originatingActivity": "proc-hz-notify-agency","usedByActivity": "proc-hz-dispose" },
+      "asi-hz-incident-closed": { "id": "asi-hz-incident-closed", "originatingActivity": "proc-hz-dispose",      "usedByActivity": null },
+      "asi-hz-p1-p2":           { "id": "asi-hz-p1-p2",           "originatingActivity": "proc-hz-p1",           "usedByActivity": "proc-hz-p2" },
+      "asi-hz-p2-p3":           { "id": "asi-hz-p2-p3",           "originatingActivity": "proc-hz-p2",           "usedByActivity": "proc-hz-p3" },
+      "asi-hz-p3-p4":           { "id": "asi-hz-p3-p4",           "originatingActivity": "proc-hz-p3",           "usedByActivity": "proc-hz-p4" }
+    },
+    "actuators": {
+      "act-hz-supervisor": { "id": "act-hz-supervisor", "name": "Floor Supervisor",  "actuatorType": "HUMAN" },
+      "act-hz-ehs":        { "id": "act-hz-ehs",        "name": "EHS Officer",       "actuatorType": "HUMAN" },
+      "act-hz-hazmat":     { "id": "act-hz-hazmat",     "name": "HAZMAT Responder",  "actuatorType": "HUMAN" }
+    },
+    "externalReferences": {},
+    "organisations": {
+      "org-hz": { "id": "org-hz", "name": "Logistics Warehouse", "rootProcessIds": ["proc-hz-root"], "roleIds": ["role-hz-supervisor", "role-hz-ehs", "role-hz-hazmat"] }
+    },
+    "roles": {
+      "role-hz-supervisor": { "id": "role-hz-supervisor", "name": "Floor Supervisor", "description": "Responsible for immediate zone response and personnel evacuation", "actuatorIds": ["act-hz-supervisor"] },
+      "role-hz-ehs":        { "id": "role-hz-ehs",        "name": "EHS Officer",       "description": "Environmental Health and Safety specialist; owns SDS library and regulatory reporting", "actuatorIds": ["act-hz-ehs"] },
+      "role-hz-hazmat":     { "id": "role-hz-hazmat",     "name": "HAZMAT Responder",  "description": "Trained chemical spill response technician; deploys spill kits and PPE", "actuatorIds": ["act-hz-hazmat"] }
+    },
+    "resources": {}
+  },
+  "representation": {
+    "dmViews": {
+      "dm-hz": {
+        "nodePositions": {
+          "pg-hz-site-safety":     { "x": 355, "y": 40  },
+          "pg-hz-personnel":       { "x": 40,  "y": 130 },
+          "pg-hz-zone-cleared":    { "x": 0,   "y": 220 },
+          "pg-hz-accounted":       { "x": 190, "y": 220 },
+          "pg-hz-spill-contained": { "x": 320, "y": 130 },
+          "pg-hz-neutralized":     { "x": 280, "y": 220 },
+          "pg-hz-drains":          { "x": 470, "y": 220 },
+          "pg-hz-compliance":      { "x": 600, "y": 130 },
+          "pg-hz-agency":          { "x": 560, "y": 220 },
+          "pg-hz-sds":             { "x": 750, "y": 220 }
+        },
+        "zoom": 1, "panX": 40, "panY": 20
+      }
+    },
+    "pbViews": {
+      "proc-hz-root": {
+        "nodePositions": {
+          "proc-hz-p1": { "x": 40,  "y": 120 },
+          "proc-hz-p2": { "x": 250, "y": 120 },
+          "proc-hz-p3": { "x": 460, "y": 120 },
+          "proc-hz-p4": { "x": 670, "y": 120 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-hz-p1": {
+        "nodePositions": {
+          "proc-hz-evacuate": { "x": 60,  "y": 60 },
+          "proc-hz-account":  { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-hz-p2": {
+        "nodePositions": {
+          "proc-hz-sds-check": { "x": 60,  "y": 60 },
+          "proc-hz-assess":    { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-hz-p3": {
+        "nodePositions": {
+          "proc-hz-block-drains": { "x": 60,  "y": 60 },
+          "proc-hz-neutralize":   { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      },
+      "proc-hz-p4": {
+        "nodePositions": {
+          "proc-hz-notify-agency": { "x": 60,  "y": 60 },
+          "proc-hz-dispose":       { "x": 270, "y": 60 }
+        },
+        "zoom": 1, "panX": 0, "panY": 0
+      }
+    }
+  }
+}
